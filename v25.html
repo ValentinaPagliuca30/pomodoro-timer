@@ -78,10 +78,10 @@
             50% { transform: rotate(8deg); }
         }
 
-        /* Fish that appear when complete */
+        /* Fish that appear in the water */
         .fish {
-            position: fixed;
-            font-size: 3rem;
+            position: absolute;
+            font-size: 2.5rem;
             opacity: 0;
             transition: opacity 1s ease;
             z-index: 2;
@@ -95,16 +95,26 @@
             100% { transform: translateX(-100px) scaleX(-1); }
         }
 
-        .fish1 { top: 10%; animation-delay: 0s; animation-duration: 20s; }
-        .fish2 { top: 18%; animation-delay: 3s; animation-duration: 25s; }
-        .fish3 { top: 26%; animation-delay: 6s; animation-duration: 18s; }
-        .fish4 { top: 34%; animation-delay: 9s; animation-duration: 22s; }
-        .fish5 { top: 42%; animation-delay: 2s; animation-duration: 24s; }
-        .fish6 { top: 50%; animation-delay: 5s; animation-duration: 19s; }
-        .fish7 { top: 58%; animation-delay: 8s; animation-duration: 21s; }
-        .fish8 { top: 66%; animation-delay: 1s; animation-duration: 23s; }
-        .fish9 { top: 74%; animation-delay: 4s; animation-duration: 26s; }
-        .fish10 { top: 82%; animation-delay: 7s; animation-duration: 17s; }
+        .fish1 { bottom: 5%; animation-delay: 0s; animation-duration: 20s; }
+        .fish2 { bottom: 10%; animation-delay: 2s; animation-duration: 25s; }
+        .fish3 { bottom: 15%; animation-delay: 4s; animation-duration: 18s; }
+        .fish4 { bottom: 20%; animation-delay: 6s; animation-duration: 22s; }
+        .fish5 { bottom: 25%; animation-delay: 1s; animation-duration: 24s; }
+        .fish6 { bottom: 30%; animation-delay: 3s; animation-duration: 19s; }
+        .fish7 { bottom: 35%; animation-delay: 5s; animation-duration: 21s; }
+        .fish8 { bottom: 40%; animation-delay: 7s; animation-duration: 23s; }
+        .fish9 { bottom: 45%; animation-delay: 2s; animation-duration: 26s; }
+        .fish10 { bottom: 50%; animation-delay: 4s; animation-duration: 17s; }
+        .fish11 { bottom: 55%; animation-delay: 6s; animation-duration: 19s; }
+        .fish12 { bottom: 60%; animation-delay: 1s; animation-duration: 22s; }
+        .fish13 { bottom: 65%; animation-delay: 3s; animation-duration: 20s; }
+        .fish14 { bottom: 70%; animation-delay: 5s; animation-duration: 24s; }
+        .fish15 { bottom: 75%; animation-delay: 0s; animation-duration: 21s; }
+        .fish16 { bottom: 80%; animation-delay: 2s; animation-duration: 23s; }
+        .fish17 { bottom: 12%; animation-delay: 7s; animation-duration: 18s; }
+        .fish18 { bottom: 22%; animation-delay: 4s; animation-duration: 25s; }
+        .fish19 { bottom: 32%; animation-delay: 6s; animation-duration: 20s; }
+        .fish20 { bottom: 42%; animation-delay: 1s; animation-duration: 22s; }
 
         .container {
             text-align: center;
@@ -209,25 +219,36 @@
     </style>
 </head>
 <body>
-    <div class="water-fill" id="waterFill"></div>
+    <!-- Water that rises with fish inside -->
+    <div class="water-fill" id="waterFill">
+        <!-- Fish that appear gradually in the water -->
+        <div class="fish fish1" id="fish1">🐠</div>
+        <div class="fish fish2" id="fish2">🐟</div>
+        <div class="fish fish3" id="fish3">🐡</div>
+        <div class="fish fish4" id="fish4">🦈</div>
+        <div class="fish fish5" id="fish5">🐠</div>
+        <div class="fish fish6" id="fish6">🐟</div>
+        <div class="fish fish7" id="fish7">🐡</div>
+        <div class="fish fish8" id="fish8">🐙</div>
+        <div class="fish fish9" id="fish9">🦑</div>
+        <div class="fish fish10" id="fish10">🐬</div>
+        <div class="fish fish11" id="fish11">🐠</div>
+        <div class="fish fish12" id="fish12">🐟</div>
+        <div class="fish fish13" id="fish13">🐡</div>
+        <div class="fish fish14" id="fish14">🦈</div>
+        <div class="fish fish15" id="fish15">🐙</div>
+        <div class="fish fish16" id="fish16">🦑</div>
+        <div class="fish fish17" id="fish17">🐬</div>
+        <div class="fish fish18" id="fish18">🐠</div>
+        <div class="fish fish19" id="fish19">🐟</div>
+        <div class="fish fish20" id="fish20">🐡</div>
+    </div>
 
     <!-- Seaweed -->
     <div class="seaweed seaweed1"></div>
     <div class="seaweed seaweed2"></div>
     <div class="seaweed seaweed3"></div>
     <div class="seaweed seaweed4"></div>
-
-    <!-- Fish that appear gradually -->
-    <div class="fish fish1" id="fish1">🐠</div>
-    <div class="fish fish2" id="fish2">🐟</div>
-    <div class="fish fish3" id="fish3">🐡</div>
-    <div class="fish fish4" id="fish4">🦈</div>
-    <div class="fish fish5" id="fish5">🐠</div>
-    <div class="fish fish6" id="fish6">🐟</div>
-    <div class="fish fish7" id="fish7">🐡</div>
-    <div class="fish fish8" id="fish8">🐙</div>
-    <div class="fish fish9" id="fish9">🦑</div>
-    <div class="fish fish10" id="fish10">🐬</div>
 
     <div class="container">
         <h1>Deep Sea Focus</h1>
@@ -287,6 +308,16 @@
         const fish8 = document.getElementById('fish8');
         const fish9 = document.getElementById('fish9');
         const fish10 = document.getElementById('fish10');
+        const fish11 = document.getElementById('fish11');
+        const fish12 = document.getElementById('fish12');
+        const fish13 = document.getElementById('fish13');
+        const fish14 = document.getElementById('fish14');
+        const fish15 = document.getElementById('fish15');
+        const fish16 = document.getElementById('fish16');
+        const fish17 = document.getElementById('fish17');
+        const fish18 = document.getElementById('fish18');
+        const fish19 = document.getElementById('fish19');
+        const fish20 = document.getElementById('fish20');
 
         function updateDisplay() {
             const minutes = Math.floor(timeLeft / 60);
@@ -297,37 +328,27 @@
             const progress = ((totalTime - timeLeft) / totalTime);
             waterFill.style.height = (progress * 100) + '%';
 
-            // Show fish gradually as water rises (every ~10%)
-            if (progress >= 0.10) {
-                fish1.style.opacity = '1';
-            }
-            if (progress >= 0.20) {
-                fish2.style.opacity = '1';
-            }
-            if (progress >= 0.30) {
-                fish3.style.opacity = '1';
-            }
-            if (progress >= 0.40) {
-                fish4.style.opacity = '1';
-            }
-            if (progress >= 0.50) {
-                fish5.style.opacity = '1';
-            }
-            if (progress >= 0.60) {
-                fish6.style.opacity = '1';
-            }
-            if (progress >= 0.70) {
-                fish7.style.opacity = '1';
-            }
-            if (progress >= 0.80) {
-                fish8.style.opacity = '1';
-            }
-            if (progress >= 0.90) {
-                fish9.style.opacity = '1';
-            }
-            if (progress >= 1.0) {
-                fish10.style.opacity = '1';
-            }
+            // Show fish gradually as water rises (every 5%)
+            if (progress >= 0.05) fish1.style.opacity = '1';
+            if (progress >= 0.10) fish2.style.opacity = '1';
+            if (progress >= 0.15) fish3.style.opacity = '1';
+            if (progress >= 0.20) fish4.style.opacity = '1';
+            if (progress >= 0.25) fish5.style.opacity = '1';
+            if (progress >= 0.30) fish6.style.opacity = '1';
+            if (progress >= 0.35) fish7.style.opacity = '1';
+            if (progress >= 0.40) fish8.style.opacity = '1';
+            if (progress >= 0.45) fish9.style.opacity = '1';
+            if (progress >= 0.50) fish10.style.opacity = '1';
+            if (progress >= 0.55) fish11.style.opacity = '1';
+            if (progress >= 0.60) fish12.style.opacity = '1';
+            if (progress >= 0.65) fish13.style.opacity = '1';
+            if (progress >= 0.70) fish14.style.opacity = '1';
+            if (progress >= 0.75) fish15.style.opacity = '1';
+            if (progress >= 0.80) fish16.style.opacity = '1';
+            if (progress >= 0.85) fish17.style.opacity = '1';
+            if (progress >= 0.90) fish18.style.opacity = '1';
+            if (progress >= 0.95) fish19.style.opacity = '1';
+            if (progress >= 1.00) fish20.style.opacity = '1';
         }
 
         function startTimer() {
@@ -361,16 +382,10 @@
                             labelDisplay.textContent = 'Fill your ocean of productivity';
                             startBtn.textContent = 'Dive In';
                             // Hide fish for next session
-                            fish1.style.opacity = '0';
-                            fish2.style.opacity = '0';
-                            fish3.style.opacity = '0';
-                            fish4.style.opacity = '0';
-                            fish5.style.opacity = '0';
-                            fish6.style.opacity = '0';
-                            fish7.style.opacity = '0';
-                            fish8.style.opacity = '0';
-                            fish9.style.opacity = '0';
-                            fish10.style.opacity = '0';
+                            [fish1, fish2, fish3, fish4, fish5, fish6, fish7, fish8, fish9, fish10,
+                             fish11, fish12, fish13, fish14, fish15, fish16, fish17, fish18, fish19, fish20].forEach(fish => {
+                                fish.style.opacity = '0';
+                            });
                         }
                         updateDisplay();
                     }
@@ -386,16 +401,10 @@
             totalTime = 25 * 60;
             labelDisplay.textContent = 'Fill your ocean of productivity';
             startBtn.textContent = 'Dive In';
-            fish1.style.opacity = '0';
-            fish2.style.opacity = '0';
-            fish3.style.opacity = '0';
-            fish4.style.opacity = '0';
-            fish5.style.opacity = '0';
-            fish6.style.opacity = '0';
-            fish7.style.opacity = '0';
-            fish8.style.opacity = '0';
-            fish9.style.opacity = '0';
-            fish10.style.opacity = '0';
+            [fish1, fish2, fish3, fish4, fish5, fish6, fish7, fish8, fish9, fish10,
+             fish11, fish12, fish13, fish14, fish15, fish16, fish17, fish18, fish19, fish20].forEach(fish => {
+                fish.style.opacity = '0';
+            });
             updateDisplay();
         }
 
