@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v12: Pastel Soft</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Quicksand', 'Helvetica Neue', sans-serif;
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 25%, #e0c3fc 50%, #8ec5fc 75%, #b8e6e6 100%);
+            background-size: 400% 400%;
+            animation: softGradient 20s ease infinite;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6b5b95;
+        }
+
+        @keyframes softGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            padding: 60px 70px;
+            border-radius: 50px;
+            box-shadow: 0 20px 60px rgba(107, 91, 149, 0.15);
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 600;
+            margin-bottom: 40px;
+            color: #9b8fc4;
+        }
+
+        .cloud {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .timer-display {
+            font-size: 6.5rem;
+            font-weight: 600;
+            color: #6b5b95;
+            margin-bottom: 25px;
+        }
+
+        .timer-label {
+            font-size: 1.2rem;
+            color: #a896c8;
+            margin-bottom: 50px;
+            font-weight: 500;
+        }
+
+        .controls {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 50px;
+        }
+
+        button {
+            background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%);
+            border: none;
+            color: #fff;
+            padding: 18px 50px;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 30px;
+            transition: all 0.4s ease;
+            font-weight: 600;
+            box-shadow: 0 8px 20px rgba(107, 91, 149, 0.2);
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(107, 91, 149, 0.3);
+        }
+
+        button:active {
+            transform: translateY(-1px);
+        }
+
+        .sessions {
+            font-size: 1.1rem;
+            color: #9b8fc4;
+            background: rgba(255, 255, 255, 0.6);
+            padding: 15px 35px;
+            border-radius: 25px;
+            display: inline-block;
+        }
+
+        .sessions span {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #6b5b95;
+        }
+
+        .stars {
+            position: absolute;
+            font-size: 1.2rem;
+            opacity: 0.6;
+            animation: twinkle 2s ease-in-out infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.8; }
+        }
+
+        .star1 { top: 20%; left: 15%; }
+        .star2 { top: 30%; right: 20%; animation-delay: 0.5s; }
+        .star3 { bottom: 25%; left: 25%; animation-delay: 1s; }
+    </style>
+</head>
+<body>
+    <div class="stars star1">✨</div>
+    <div class="stars star2">✨</div>
+    <div class="stars star3">✨</div>
+
+    <div class="container">
+        <div class="cloud">☁️</div>
+        <h1>Dreamy Focus</h1>
+
+        <div class="timer-display" id="timer">25:00</div>
+        <div class="timer-label" id="label">Study Time</div>
+
+        <div class="controls">
+            <button id="startBtn">Start</button>
+            <button id="resetBtn">Reset</button>
+        </div>
+
+        <div class="sessions">
+            Sessions: <span id="sessions">0</span>
+        </div>
+    </div>
+
+    <script>
+        let timeLeft = 25 * 60;
+        let totalTime = 25 * 60;
+        let isRunning = false;
+        let isBreak = false;
+        let sessionsCompleted = 0;
+        let timerInterval;
+
+        const timerDisplay = document.getElementById('timer');
+        const labelDisplay = document.getElementById('label');
+        const startBtn = document.getElementById('startBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const sessionsDisplay = document.getElementById('sessions');
+
+        function updateDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function startTimer() {
+            if (isRunning) {
+                isRunning = false;
+                startBtn.textContent = 'Start';
+                clearInterval(timerInterval);
+            } else {
+                isRunning = true;
+                startBtn.textContent = 'Pause';
+                timerInterval = setInterval(() => {
+                    if (timeLeft > 0) {
+                        timeLeft--;
+                        updateDisplay();
+                    } else {
+                        clearInterval(timerInterval);
+                        isRunning = false;
+
+                        if (!isBreak) {
+                            sessionsCompleted++;
+                            sessionsDisplay.textContent = sessionsCompleted;
+                            isBreak = true;
+                            timeLeft = 5 * 60;
+                            totalTime = 5 * 60;
+                            labelDisplay.textContent = 'Break Time';
+                            startBtn.textContent = 'Start';
+                        } else {
+                            isBreak = false;
+                            timeLeft = 25 * 60;
+                            totalTime = 25 * 60;
+                            labelDisplay.textContent = 'Study Time';
+                            startBtn.textContent = 'Start';
+                        }
+                        updateDisplay();
+                    }
+                }, 1000);
+            }
+        }
+
+        function resetTimer() {
+            clearInterval(timerInterval);
+            isRunning = false;
+            isBreak = false;
+            timeLeft = 25 * 60;
+            totalTime = 25 * 60;
+            labelDisplay.textContent = 'Study Time';
+            startBtn.textContent = 'Start';
+            updateDisplay();
+        }
+
+        startBtn.addEventListener('click', startTimer);
+        resetBtn.addEventListener('click', resetTimer);
+
+        updateDisplay();
+    </script>
+</body>
+</html>

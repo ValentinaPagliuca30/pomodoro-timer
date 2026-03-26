@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v11: Academic Classic</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Garamond', 'Times New Roman', serif;
+            background: #f4f1e8;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #2c1810;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 650px;
+            padding: 70px 60px;
+            background: #fefdfb;
+            border: 3px solid #8b7355;
+            box-shadow: 0 10px 40px rgba(44, 24, 16, 0.15);
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 400;
+            margin-bottom: 10px;
+            color: #2c1810;
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            font-style: italic;
+            color: #6b5a4d;
+            margin-bottom: 50px;
+            letter-spacing: 1px;
+        }
+
+        .timer-display {
+            font-size: 7rem;
+            font-weight: 400;
+            color: #2c1810;
+            margin-bottom: 30px;
+            font-variant-numeric: oldstyle-nums;
+        }
+
+        .timer-label {
+            font-size: 1.2rem;
+            color: #6b5a4d;
+            margin-bottom: 50px;
+            font-style: italic;
+        }
+
+        .ornament {
+            width: 150px;
+            height: 2px;
+            background: #8b7355;
+            margin: 40px auto;
+            position: relative;
+        }
+
+        .ornament::before,
+        .ornament::after {
+            content: '❦';
+            position: absolute;
+            color: #8b7355;
+            font-size: 1.5rem;
+        }
+
+        .ornament::before {
+            left: -30px;
+            top: -12px;
+        }
+
+        .ornament::after {
+            right: -30px;
+            top: -12px;
+        }
+
+        .controls {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            margin-bottom: 50px;
+        }
+
+        button {
+            background: none;
+            border: 2px solid #8b7355;
+            color: #2c1810;
+            padding: 15px 40px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Garamond', serif;
+        }
+
+        button:hover {
+            background: #8b7355;
+            color: #fefdfb;
+        }
+
+        .sessions {
+            font-size: 1rem;
+            color: #6b5a4d;
+            font-style: italic;
+        }
+
+        .sessions span {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #2c1810;
+            font-style: normal;
+            display: block;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Studium Tempus</h1>
+        <div class="subtitle">A Timer for Scholars</div>
+
+        <div class="timer-display" id="timer">25:00</div>
+        <div class="timer-label" id="label">Study Period</div>
+
+        <div class="ornament"></div>
+
+        <div class="controls">
+            <button id="startBtn">Commence</button>
+            <button id="resetBtn">Restore</button>
+        </div>
+
+        <div class="ornament"></div>
+
+        <div class="sessions">
+            Sessions Completed
+            <span id="sessions">0</span>
+        </div>
+    </div>
+
+    <script>
+        let timeLeft = 25 * 60;
+        let totalTime = 25 * 60;
+        let isRunning = false;
+        let isBreak = false;
+        let sessionsCompleted = 0;
+        let timerInterval;
+
+        const timerDisplay = document.getElementById('timer');
+        const labelDisplay = document.getElementById('label');
+        const startBtn = document.getElementById('startBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const sessionsDisplay = document.getElementById('sessions');
+
+        function updateDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function startTimer() {
+            if (isRunning) {
+                isRunning = false;
+                startBtn.textContent = 'Commence';
+                clearInterval(timerInterval);
+            } else {
+                isRunning = true;
+                startBtn.textContent = 'Pause';
+                timerInterval = setInterval(() => {
+                    if (timeLeft > 0) {
+                        timeLeft--;
+                        updateDisplay();
+                    } else {
+                        clearInterval(timerInterval);
+                        isRunning = false;
+
+                        if (!isBreak) {
+                            sessionsCompleted++;
+                            sessionsDisplay.textContent = sessionsCompleted;
+                            isBreak = true;
+                            timeLeft = 5 * 60;
+                            totalTime = 5 * 60;
+                            labelDisplay.textContent = 'Respite Period';
+                            startBtn.textContent = 'Commence';
+                        } else {
+                            isBreak = false;
+                            timeLeft = 25 * 60;
+                            totalTime = 25 * 60;
+                            labelDisplay.textContent = 'Study Period';
+                            startBtn.textContent = 'Commence';
+                        }
+                        updateDisplay();
+                    }
+                }, 1000);
+            }
+        }
+
+        function resetTimer() {
+            clearInterval(timerInterval);
+            isRunning = false;
+            isBreak = false;
+            timeLeft = 25 * 60;
+            totalTime = 25 * 60;
+            labelDisplay.textContent = 'Study Period';
+            startBtn.textContent = 'Commence';
+            updateDisplay();
+        }
+
+        startBtn.addEventListener('click', startTimer);
+        resetBtn.addEventListener('click', resetTimer);
+
+        updateDisplay();
+    </script>
+</body>
+</html>

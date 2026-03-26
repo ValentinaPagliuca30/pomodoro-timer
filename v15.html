@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v15: Animated Joy</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Fredoka One', 'Comic Sans MS', cursive;
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 50%, #30cfd0 100%);
+            background-size: 200% 200%;
+            animation: rainbow 10s ease infinite;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            overflow: hidden;
+        }
+
+        @keyframes rainbow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 30px;
+            animation: bounce 1.5s ease-in-out infinite;
+            text-shadow: 4px 4px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .emoji {
+            font-size: 4rem;
+            animation: spin 3s linear infinite;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .timer-display {
+            font-size: 8rem;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 25px;
+            text-shadow: 5px 5px 0 rgba(0, 0, 0, 0.3);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .timer-label {
+            font-size: 1.5rem;
+            margin-bottom: 50px;
+            animation: wiggle 1s ease-in-out infinite;
+        }
+
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-3deg); }
+            75% { transform: rotate(3deg); }
+        }
+
+        .controls {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            margin-bottom: 50px;
+        }
+
+        button {
+            background: #fff;
+            border: none;
+            color: #fa709a;
+            padding: 22px 55px;
+            font-size: 1.3rem;
+            cursor: pointer;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            font-weight: 900;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            text-transform: uppercase;
+            font-family: inherit;
+        }
+
+        button:hover {
+            transform: translateY(-5px) rotate(-2deg);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        button:active {
+            transform: translateY(-2px) rotate(2deg);
+        }
+
+        .sessions {
+            font-size: 1.3rem;
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            padding: 20px 40px;
+            border-radius: 40px;
+            display: inline-block;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .sessions span {
+            font-size: 3rem;
+            display: block;
+            margin-top: 10px;
+        }
+
+        .confetti {
+            position: absolute;
+            font-size: 2rem;
+            animation: fall 5s linear infinite;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+
+        .confetti:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .confetti:nth-child(2) { left: 30%; animation-delay: 1s; }
+        .confetti:nth-child(3) { left: 50%; animation-delay: 2s; }
+        .confetti:nth-child(4) { left: 70%; animation-delay: 1.5s; }
+        .confetti:nth-child(5) { left: 90%; animation-delay: 0.5s; }
+    </style>
+</head>
+<body>
+    <div class="confetti">🎉</div>
+    <div class="confetti">✨</div>
+    <div class="confetti">🌟</div>
+    <div class="confetti">⭐</div>
+    <div class="confetti">💫</div>
+
+    <div class="container">
+        <div class="emoji">🎯</div>
+        <h1>Super Study!</h1>
+
+        <div class="timer-display" id="timer">25:00</div>
+        <div class="timer-label" id="label">Let's Go!</div>
+
+        <div class="controls">
+            <button id="startBtn">Go!</button>
+            <button id="resetBtn">Reset!</button>
+        </div>
+
+        <div class="sessions">
+            You Did It!
+            <span id="sessions">0</span>
+        </div>
+    </div>
+
+    <script>
+        let timeLeft = 25 * 60;
+        let totalTime = 25 * 60;
+        let isRunning = false;
+        let isBreak = false;
+        let sessionsCompleted = 0;
+        let timerInterval;
+
+        const timerDisplay = document.getElementById('timer');
+        const labelDisplay = document.getElementById('label');
+        const startBtn = document.getElementById('startBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const sessionsDisplay = document.getElementById('sessions');
+
+        function updateDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function startTimer() {
+            if (isRunning) {
+                isRunning = false;
+                startBtn.textContent = 'Go!';
+                clearInterval(timerInterval);
+            } else {
+                isRunning = true;
+                startBtn.textContent = 'Pause!';
+                timerInterval = setInterval(() => {
+                    if (timeLeft > 0) {
+                        timeLeft--;
+                        updateDisplay();
+                    } else {
+                        clearInterval(timerInterval);
+                        isRunning = false;
+
+                        if (!isBreak) {
+                            sessionsCompleted++;
+                            sessionsDisplay.textContent = sessionsCompleted;
+                            isBreak = true;
+                            timeLeft = 5 * 60;
+                            totalTime = 5 * 60;
+                            labelDisplay.textContent = 'Break Time!';
+                            startBtn.textContent = 'Go!';
+                        } else {
+                            isBreak = false;
+                            timeLeft = 25 * 60;
+                            totalTime = 25 * 60;
+                            labelDisplay.textContent = "Let's Go!";
+                            startBtn.textContent = 'Go!';
+                        }
+                        updateDisplay();
+                    }
+                }, 1000);
+            }
+        }
+
+        function resetTimer() {
+            clearInterval(timerInterval);
+            isRunning = false;
+            isBreak = false;
+            timeLeft = 25 * 60;
+            totalTime = 25 * 60;
+            labelDisplay.textContent = "Let's Go!";
+            startBtn.textContent = 'Go!';
+            updateDisplay();
+        }
+
+        startBtn.addEventListener('click', startTimer);
+        resetBtn.addEventListener('click', resetTimer);
+
+        updateDisplay();
+    </script>
+</body>
+</html>
