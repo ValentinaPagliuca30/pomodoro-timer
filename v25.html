@@ -95,10 +95,16 @@
             100% { transform: translateX(-100px) scaleX(-1); }
         }
 
-        .fish1 { top: 15%; animation-delay: 0s; animation-duration: 20s; }
-        .fish2 { top: 30%; animation-delay: 3s; animation-duration: 25s; }
-        .fish3 { top: 50%; animation-delay: 6s; animation-duration: 18s; }
-        .fish4 { top: 70%; animation-delay: 9s; animation-duration: 22s; }
+        .fish1 { top: 10%; animation-delay: 0s; animation-duration: 20s; }
+        .fish2 { top: 18%; animation-delay: 3s; animation-duration: 25s; }
+        .fish3 { top: 26%; animation-delay: 6s; animation-duration: 18s; }
+        .fish4 { top: 34%; animation-delay: 9s; animation-duration: 22s; }
+        .fish5 { top: 42%; animation-delay: 2s; animation-duration: 24s; }
+        .fish6 { top: 50%; animation-delay: 5s; animation-duration: 19s; }
+        .fish7 { top: 58%; animation-delay: 8s; animation-duration: 21s; }
+        .fish8 { top: 66%; animation-delay: 1s; animation-duration: 23s; }
+        .fish9 { top: 74%; animation-delay: 4s; animation-duration: 26s; }
+        .fish10 { top: 82%; animation-delay: 7s; animation-duration: 17s; }
 
         .container {
             text-align: center;
@@ -211,11 +217,17 @@
     <div class="seaweed seaweed3"></div>
     <div class="seaweed seaweed4"></div>
 
-    <!-- Fish that appear when done -->
+    <!-- Fish that appear gradually -->
     <div class="fish fish1" id="fish1">🐠</div>
     <div class="fish fish2" id="fish2">🐟</div>
     <div class="fish fish3" id="fish3">🐡</div>
     <div class="fish fish4" id="fish4">🦈</div>
+    <div class="fish fish5" id="fish5">🐠</div>
+    <div class="fish fish6" id="fish6">🐟</div>
+    <div class="fish fish7" id="fish7">🐡</div>
+    <div class="fish fish8" id="fish8">🐙</div>
+    <div class="fish fish9" id="fish9">🦑</div>
+    <div class="fish fish10" id="fish10">🐬</div>
 
     <div class="container">
         <h1>Deep Sea Focus</h1>
@@ -269,6 +281,12 @@
         const fish2 = document.getElementById('fish2');
         const fish3 = document.getElementById('fish3');
         const fish4 = document.getElementById('fish4');
+        const fish5 = document.getElementById('fish5');
+        const fish6 = document.getElementById('fish6');
+        const fish7 = document.getElementById('fish7');
+        const fish8 = document.getElementById('fish8');
+        const fish9 = document.getElementById('fish9');
+        const fish10 = document.getElementById('fish10');
 
         function updateDisplay() {
             const minutes = Math.floor(timeLeft / 60);
@@ -279,18 +297,36 @@
             const progress = ((totalTime - timeLeft) / totalTime);
             waterFill.style.height = (progress * 100) + '%';
 
-            // Show fish gradually as water rises
-            if (progress >= 0.25) {
+            // Show fish gradually as water rises (every ~10%)
+            if (progress >= 0.10) {
                 fish1.style.opacity = '1';
             }
-            if (progress >= 0.50) {
+            if (progress >= 0.20) {
                 fish2.style.opacity = '1';
             }
-            if (progress >= 0.75) {
+            if (progress >= 0.30) {
                 fish3.style.opacity = '1';
             }
-            if (progress >= 1) {
+            if (progress >= 0.40) {
                 fish4.style.opacity = '1';
+            }
+            if (progress >= 0.50) {
+                fish5.style.opacity = '1';
+            }
+            if (progress >= 0.60) {
+                fish6.style.opacity = '1';
+            }
+            if (progress >= 0.70) {
+                fish7.style.opacity = '1';
+            }
+            if (progress >= 0.80) {
+                fish8.style.opacity = '1';
+            }
+            if (progress >= 0.90) {
+                fish9.style.opacity = '1';
+            }
+            if (progress >= 1.0) {
+                fish10.style.opacity = '1';
             }
         }
 
@@ -329,6 +365,12 @@
                             fish2.style.opacity = '0';
                             fish3.style.opacity = '0';
                             fish4.style.opacity = '0';
+                            fish5.style.opacity = '0';
+                            fish6.style.opacity = '0';
+                            fish7.style.opacity = '0';
+                            fish8.style.opacity = '0';
+                            fish9.style.opacity = '0';
+                            fish10.style.opacity = '0';
                         }
                         updateDisplay();
                     }
@@ -348,6 +390,12 @@
             fish2.style.opacity = '0';
             fish3.style.opacity = '0';
             fish4.style.opacity = '0';
+            fish5.style.opacity = '0';
+            fish6.style.opacity = '0';
+            fish7.style.opacity = '0';
+            fish8.style.opacity = '0';
+            fish9.style.opacity = '0';
+            fish10.style.opacity = '0';
             updateDisplay();
         }
 
