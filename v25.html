@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>v25: Deep Sea Aquarium</title>
+    <title>v25: FINAL - Lunar Cycle</title>
     <style>
         * {
             margin: 0;
@@ -13,7 +13,7 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
-            background: linear-gradient(to bottom, #001a33 0%, #003366 50%, #004d7a 100%);
+            background: linear-gradient(to bottom, #0a0e27 0%, #1a1d3a 50%, #2d1b4e 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -23,267 +23,191 @@
             overflow: hidden;
         }
 
-        /* Bubbles floating up */
-        .bubble {
+        /* Stars twinkling */
+        .stars {
             position: absolute;
-            bottom: -50px;
-            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.3));
+            width: 100%;
+            height: 100%;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
             border-radius: 50%;
-            animation: float-up 8s infinite ease-in;
-            opacity: 0.6;
+            animation: twinkle 3s infinite ease-in-out;
         }
 
-        @keyframes float-up {
-            0% {
-                transform: translateY(0) translateX(0);
-                opacity: 0.6;
-            }
-            100% {
-                transform: translateY(-100vh) translateX(50px);
-                opacity: 0;
-            }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
         }
-
-        /* Water that rises from bottom */
-        .water-fill {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 0%;
-            background: linear-gradient(to top, rgba(0, 119, 190, 0.3) 0%, rgba(0, 180, 216, 0.2) 100%);
-            transition: height 1s ease;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        /* Animated seaweed */
-        .seaweed {
-            position: fixed;
-            bottom: 0;
-            width: 40px;
-            background: linear-gradient(to top, #1a5f3f 0%, #2d8659 100%);
-            border-radius: 20px 20px 0 0;
-            animation: sway 3s ease-in-out infinite;
-            z-index: 1;
-        }
-
-        .seaweed1 { left: 10%; height: 150px; animation-delay: 0s; }
-        .seaweed2 { left: 25%; height: 120px; animation-delay: 0.5s; }
-        .seaweed3 { right: 20%; height: 180px; animation-delay: 1s; }
-        .seaweed4 { right: 8%; height: 140px; animation-delay: 1.5s; }
-
-        @keyframes sway {
-            0%, 100% { transform: rotate(0deg); }
-            50% { transform: rotate(8deg); }
-        }
-
-        /* Fish that appear in the water */
-        .fish {
-            position: absolute;
-            font-size: 2.5rem;
-            opacity: 0;
-            transition: opacity 1s ease;
-            z-index: 2;
-            animation: swim 15s linear infinite;
-        }
-
-        @keyframes swim {
-            0% { transform: translateX(-100px) scaleX(1); }
-            49% { transform: translateX(calc(100vw + 100px)) scaleX(1); }
-            50% { transform: translateX(calc(100vw + 100px)) scaleX(-1); }
-            100% { transform: translateX(-100px) scaleX(-1); }
-        }
-
-        .fish1 { bottom: 5%; animation-delay: 0s; animation-duration: 20s; }
-        .fish2 { bottom: 10%; animation-delay: 2s; animation-duration: 25s; }
-        .fish3 { bottom: 15%; animation-delay: 4s; animation-duration: 18s; }
-        .fish4 { bottom: 20%; animation-delay: 6s; animation-duration: 22s; }
-        .fish5 { bottom: 25%; animation-delay: 1s; animation-duration: 24s; }
-        .fish6 { bottom: 30%; animation-delay: 3s; animation-duration: 19s; }
-        .fish7 { bottom: 35%; animation-delay: 5s; animation-duration: 21s; }
-        .fish8 { bottom: 40%; animation-delay: 7s; animation-duration: 23s; }
-        .fish9 { bottom: 45%; animation-delay: 2s; animation-duration: 26s; }
-        .fish10 { bottom: 50%; animation-delay: 4s; animation-duration: 17s; }
-        .fish11 { bottom: 55%; animation-delay: 6s; animation-duration: 19s; }
-        .fish12 { bottom: 60%; animation-delay: 1s; animation-duration: 22s; }
-        .fish13 { bottom: 65%; animation-delay: 3s; animation-duration: 20s; }
-        .fish14 { bottom: 70%; animation-delay: 5s; animation-duration: 24s; }
-        .fish15 { bottom: 75%; animation-delay: 0s; animation-duration: 21s; }
-        .fish16 { bottom: 80%; animation-delay: 2s; animation-duration: 23s; }
-        .fish17 { bottom: 12%; animation-delay: 7s; animation-duration: 18s; }
-        .fish18 { bottom: 22%; animation-delay: 4s; animation-duration: 25s; }
-        .fish19 { bottom: 32%; animation-delay: 6s; animation-duration: 20s; }
-        .fish20 { bottom: 42%; animation-delay: 1s; animation-duration: 22s; }
 
         .container {
             text-align: center;
-            max-width: 800px;
+            max-width: 700px;
             padding: 40px;
             position: relative;
-            z-index: 3;
+            z-index: 1;
         }
 
         h1 {
-            font-size: 3rem;
-            font-weight: 600;
-            margin-bottom: 60px;
-            color: #00d4ff;
-            text-shadow: 0 0 30px rgba(0, 212, 255, 0.8),
-                         0 4px 20px rgba(0, 0, 0, 0.5);
-            animation: glow 2s ease-in-out infinite;
+            font-size: 2.8rem;
+            font-weight: 300;
+            margin-bottom: 50px;
+            color: #e0e0e0;
+            letter-spacing: 4px;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
         }
 
-        @keyframes glow {
-            0%, 100% { text-shadow: 0 0 30px rgba(0, 212, 255, 0.8), 0 4px 20px rgba(0, 0, 0, 0.5); }
-            50% { text-shadow: 0 0 50px rgba(0, 212, 255, 1), 0 4px 20px rgba(0, 0, 0, 0.5); }
+        /* Moon container */
+        .moon-container {
+            width: 300px;
+            height: 300px;
+            margin: 0 auto 40px;
+            position: relative;
+        }
+
+        /* Full moon background */
+        .moon {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 35%, #f0f0f0, #d0d0d0);
+            position: relative;
+            box-shadow: 0 0 80px rgba(240, 240, 240, 0.6),
+                        inset -15px -15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Craters */
+        .crater {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #b8b8b8, #a0a0a0);
+            box-shadow: inset 3px 3px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .crater1 { width: 40px; height: 40px; top: 20%; left: 30%; }
+        .crater2 { width: 30px; height: 30px; top: 50%; right: 25%; }
+        .crater3 { width: 25px; height: 25px; bottom: 30%; left: 40%; }
+        .crater4 { width: 20px; height: 20px; top: 40%; left: 60%; }
+
+        /* Shadow that moves to reveal moon (waxing) */
+        .moon-shadow {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: #0a0e27;
+            border-radius: 50%;
+            transition: transform 1s ease;
+            transform-origin: center;
         }
 
         .timer-display {
-            font-size: 12rem;
+            font-size: 8rem;
             font-weight: 200;
-            margin-bottom: 40px;
-            text-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-            letter-spacing: -8px;
-            color: #fff;
+            margin-bottom: 30px;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.4);
+            letter-spacing: -4px;
         }
 
         .timer-label {
-            font-size: 1.6rem;
-            margin-bottom: 70px;
-            color: #7dd3fc;
-            letter-spacing: 1px;
+            font-size: 1.4rem;
+            margin-bottom: 60px;
+            opacity: 0.9;
+            letter-spacing: 2px;
         }
 
         .controls {
             display: flex;
-            gap: 25px;
+            gap: 20px;
             justify-content: center;
-            margin-bottom: 60px;
+            margin-bottom: 50px;
         }
 
         button {
-            background: rgba(0, 212, 255, 0.9);
-            border: none;
-            color: #001a33;
-            padding: 22px 65px;
-            font-size: 1.15rem;
+            background: rgba(240, 240, 240, 0.15);
+            border: 2px solid rgba(240, 240, 240, 0.4);
+            color: #fff;
+            padding: 20px 55px;
+            font-size: 1.1rem;
             cursor: pointer;
             border-radius: 50px;
-            font-weight: 700;
-            box-shadow: 0 10px 35px rgba(0, 212, 255, 0.4);
+            font-weight: 600;
+            backdrop-filter: blur(10px);
             transition: all 0.3s ease;
         }
 
         button:hover {
-            background: #00d4ff;
-            transform: translateY(-4px);
-            box-shadow: 0 15px 45px rgba(0, 212, 255, 0.6);
-        }
-
-        button#resetBtn {
-            background: rgba(255, 255, 255, 0.2);
-            color: #fff;
-            border: 2px solid rgba(255, 255, 255, 0.5);
-        }
-
-        button#resetBtn:hover {
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(240, 240, 240, 0.25);
+            border-color: rgba(240, 240, 240, 0.6);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.15);
         }
 
         .sessions {
-            font-size: 1.25rem;
-            background: rgba(0, 212, 255, 0.15);
-            backdrop-filter: blur(20px);
-            padding: 22px 55px;
-            border-radius: 40px;
+            font-size: 1.2rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            padding: 20px 50px;
+            border-radius: 30px;
             display: inline-block;
-            border: 2px solid rgba(0, 212, 255, 0.4);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .sessions span {
-            font-size: 3rem;
-            font-weight: 700;
+            font-size: 2.8rem;
+            font-weight: 600;
             display: block;
             margin-top: 10px;
-            color: #00d4ff;
-        }
-
-        @media (max-width: 768px) {
-            .timer-display {
-                font-size: 7rem;
-                letter-spacing: -5px;
-            }
         }
     </style>
 </head>
 <body>
-    <!-- Water that rises with fish inside -->
-    <div class="water-fill" id="waterFill">
-        <!-- Fish that appear gradually in the water -->
-        <div class="fish fish1" id="fish1">🐠</div>
-        <div class="fish fish2" id="fish2">🐟</div>
-        <div class="fish fish3" id="fish3">🐡</div>
-        <div class="fish fish4" id="fish4">🦈</div>
-        <div class="fish fish5" id="fish5">🐠</div>
-        <div class="fish fish6" id="fish6">🐟</div>
-        <div class="fish fish7" id="fish7">🐡</div>
-        <div class="fish fish8" id="fish8">🐙</div>
-        <div class="fish fish9" id="fish9">🦑</div>
-        <div class="fish fish10" id="fish10">🐬</div>
-        <div class="fish fish11" id="fish11">🐠</div>
-        <div class="fish fish12" id="fish12">🐟</div>
-        <div class="fish fish13" id="fish13">🐡</div>
-        <div class="fish fish14" id="fish14">🦈</div>
-        <div class="fish fish15" id="fish15">🐙</div>
-        <div class="fish fish16" id="fish16">🦑</div>
-        <div class="fish fish17" id="fish17">🐬</div>
-        <div class="fish fish18" id="fish18">🐠</div>
-        <div class="fish fish19" id="fish19">🐟</div>
-        <div class="fish fish20" id="fish20">🐡</div>
-    </div>
-
-    <!-- Seaweed -->
-    <div class="seaweed seaweed1"></div>
-    <div class="seaweed seaweed2"></div>
-    <div class="seaweed seaweed3"></div>
-    <div class="seaweed seaweed4"></div>
+    <div class="stars" id="starsContainer"></div>
 
     <div class="container">
-        <h1>Deep Sea Focus</h1>
+        <h1>Lunar Focus</h1>
+
+        <div class="moon-container">
+            <div class="moon">
+                <div class="crater crater1"></div>
+                <div class="crater crater2"></div>
+                <div class="crater crater3"></div>
+                <div class="crater crater4"></div>
+                <div class="moon-shadow" id="moonShadow"></div>
+            </div>
+        </div>
 
         <div class="timer-display" id="timer">25:00</div>
-        <div class="timer-label" id="label">Fill your ocean of productivity</div>
+        <div class="timer-label" id="label">Watch the moon wax to full</div>
 
         <div class="controls">
-            <button id="startBtn">Dive In</button>
-            <button id="resetBtn">Surface</button>
+            <button id="startBtn">Begin</button>
+            <button id="resetBtn">Reset</button>
         </div>
 
         <div class="sessions">
-            Oceans filled
+            Lunar cycles
             <span id="sessions">0</span>
         </div>
     </div>
 
     <script>
-        // Generate bubbles
-        function createBubble() {
-            const bubble = document.createElement('div');
-            bubble.className = 'bubble';
-            const size = Math.random() * 30 + 10;
-            bubble.style.width = size + 'px';
-            bubble.style.height = size + 'px';
-            bubble.style.left = Math.random() * 100 + '%';
-            bubble.style.animationDuration = (Math.random() * 5 + 5) + 's';
-            bubble.style.animationDelay = Math.random() * 3 + 's';
-            document.body.appendChild(bubble);
-
-            setTimeout(() => bubble.remove(), 10000);
+        // Generate stars
+        const starsContainer = document.getElementById('starsContainer');
+        for (let i = 0; i < 120; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 3 + 's';
+            star.style.animationDuration = (Math.random() * 2 + 2) + 's';
+            starsContainer.appendChild(star);
         }
-
-        setInterval(createBubble, 800);
 
         let timeLeft = 25 * 60;
         let totalTime = 25 * 60;
@@ -297,64 +221,24 @@
         const startBtn = document.getElementById('startBtn');
         const resetBtn = document.getElementById('resetBtn');
         const sessionsDisplay = document.getElementById('sessions');
-        const waterFill = document.getElementById('waterFill');
-        const fish1 = document.getElementById('fish1');
-        const fish2 = document.getElementById('fish2');
-        const fish3 = document.getElementById('fish3');
-        const fish4 = document.getElementById('fish4');
-        const fish5 = document.getElementById('fish5');
-        const fish6 = document.getElementById('fish6');
-        const fish7 = document.getElementById('fish7');
-        const fish8 = document.getElementById('fish8');
-        const fish9 = document.getElementById('fish9');
-        const fish10 = document.getElementById('fish10');
-        const fish11 = document.getElementById('fish11');
-        const fish12 = document.getElementById('fish12');
-        const fish13 = document.getElementById('fish13');
-        const fish14 = document.getElementById('fish14');
-        const fish15 = document.getElementById('fish15');
-        const fish16 = document.getElementById('fish16');
-        const fish17 = document.getElementById('fish17');
-        const fish18 = document.getElementById('fish18');
-        const fish19 = document.getElementById('fish19');
-        const fish20 = document.getElementById('fish20');
+        const moonShadow = document.getElementById('moonShadow');
 
         function updateDisplay() {
             const minutes = Math.floor(timeLeft / 60);
             const seconds = timeLeft % 60;
             timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 
-            // Water rises from bottom
+            // Move shadow to reveal moon (waxing)
             const progress = ((totalTime - timeLeft) / totalTime);
-            waterFill.style.height = (progress * 100) + '%';
-
-            // Show fish gradually as water rises (every 5%)
-            if (progress >= 0.05) fish1.style.opacity = '1';
-            if (progress >= 0.10) fish2.style.opacity = '1';
-            if (progress >= 0.15) fish3.style.opacity = '1';
-            if (progress >= 0.20) fish4.style.opacity = '1';
-            if (progress >= 0.25) fish5.style.opacity = '1';
-            if (progress >= 0.30) fish6.style.opacity = '1';
-            if (progress >= 0.35) fish7.style.opacity = '1';
-            if (progress >= 0.40) fish8.style.opacity = '1';
-            if (progress >= 0.45) fish9.style.opacity = '1';
-            if (progress >= 0.50) fish10.style.opacity = '1';
-            if (progress >= 0.55) fish11.style.opacity = '1';
-            if (progress >= 0.60) fish12.style.opacity = '1';
-            if (progress >= 0.65) fish13.style.opacity = '1';
-            if (progress >= 0.70) fish14.style.opacity = '1';
-            if (progress >= 0.75) fish15.style.opacity = '1';
-            if (progress >= 0.80) fish16.style.opacity = '1';
-            if (progress >= 0.85) fish17.style.opacity = '1';
-            if (progress >= 0.90) fish18.style.opacity = '1';
-            if (progress >= 0.95) fish19.style.opacity = '1';
-            if (progress >= 1.00) fish20.style.opacity = '1';
+            // Shadow moves from right to left, revealing the moon
+            const translateX = progress * 100;
+            moonShadow.style.transform = `translateX(${translateX}%)`;
         }
 
         function startTimer() {
             if (isRunning) {
                 isRunning = false;
-                startBtn.textContent = 'Dive In';
+                startBtn.textContent = 'Begin';
                 clearInterval(timerInterval);
             } else {
                 isRunning = true;
@@ -373,19 +257,14 @@
                             isBreak = true;
                             timeLeft = 5 * 60;
                             totalTime = 5 * 60;
-                            labelDisplay.textContent = 'Surface for air';
-                            startBtn.textContent = 'Dive In';
+                            labelDisplay.textContent = 'Moonlight break';
+                            startBtn.textContent = 'Begin';
                         } else {
                             isBreak = false;
                             timeLeft = 25 * 60;
                             totalTime = 25 * 60;
-                            labelDisplay.textContent = 'Fill your ocean of productivity';
-                            startBtn.textContent = 'Dive In';
-                            // Hide fish for next session
-                            [fish1, fish2, fish3, fish4, fish5, fish6, fish7, fish8, fish9, fish10,
-                             fish11, fish12, fish13, fish14, fish15, fish16, fish17, fish18, fish19, fish20].forEach(fish => {
-                                fish.style.opacity = '0';
-                            });
+                            labelDisplay.textContent = 'Watch the moon wax to full';
+                            startBtn.textContent = 'Begin';
                         }
                         updateDisplay();
                     }
@@ -399,12 +278,8 @@
             isBreak = false;
             timeLeft = 25 * 60;
             totalTime = 25 * 60;
-            labelDisplay.textContent = 'Fill your ocean of productivity';
-            startBtn.textContent = 'Dive In';
-            [fish1, fish2, fish3, fish4, fish5, fish6, fish7, fish8, fish9, fish10,
-             fish11, fish12, fish13, fish14, fish15, fish16, fish17, fish18, fish19, fish20].forEach(fish => {
-                fish.style.opacity = '0';
-            });
+            labelDisplay.textContent = 'Watch the moon wax to full';
+            startBtn.textContent = 'Begin';
             updateDisplay();
         }
 
