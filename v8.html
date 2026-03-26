@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v8: Nature Inspired</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background: linear-gradient(to bottom, #d4e7c5 0%, #bfd8af 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #2d5016;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 600px;
+            padding: 60px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 60px;
+            box-shadow: 0 20px 60px rgba(45, 80, 22, 0.15);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 300;
+            margin-bottom: 15px;
+            color: #4a7c59;
+            font-style: italic;
+        }
+
+        .leaf-icon {
+            font-size: 3rem;
+            margin-bottom: 30px;
+        }
+
+        .timer-display {
+            font-size: 6.5rem;
+            font-weight: 300;
+            color: #2d5016;
+            margin-bottom: 20px;
+        }
+
+        .timer-label {
+            font-size: 1.2rem;
+            color: #6b8e23;
+            margin-bottom: 50px;
+            font-style: italic;
+        }
+
+        .controls {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            margin-bottom: 50px;
+        }
+
+        button {
+            background: #8fbc8f;
+            border: none;
+            color: #fff;
+            padding: 18px 45px;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 40px;
+            transition: all 0.4s ease;
+            font-family: Georgia, serif;
+            box-shadow: 0 8px 20px rgba(45, 80, 22, 0.2);
+        }
+
+        button:hover {
+            background: #6b8e23;
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(45, 80, 22, 0.3);
+        }
+
+        button:active {
+            transform: translateY(-1px);
+        }
+
+        .sessions {
+            font-size: 1.1rem;
+            color: #4a7c59;
+            background: rgba(143, 188, 143, 0.3);
+            padding: 15px 35px;
+            border-radius: 30px;
+            display: inline-block;
+        }
+
+        .sessions span {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2d5016;
+        }
+
+        .branches {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 100px;
+            height: 100px;
+            opacity: 0.2;
+        }
+
+        .branches::before,
+        .branches::after {
+            content: '🌿';
+            position: absolute;
+            font-size: 3rem;
+        }
+
+        .branches::before {
+            top: 0;
+            left: 0;
+        }
+
+        .branches::after {
+            bottom: 0;
+            right: 0;
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="leaf-icon">🍃</div>
+        <h1>Grow & Focus</h1>
+
+        <div class="timer-display" id="timer">25:00</div>
+        <div class="timer-label" id="label">Study Session</div>
+
+        <div class="controls">
+            <button id="startBtn">Begin</button>
+            <button id="resetBtn">Refresh</button>
+        </div>
+
+        <div class="sessions">
+            Seeds planted: <span id="sessions">0</span>
+        </div>
+    </div>
+
+    <script>
+        let timeLeft = 25 * 60;
+        let totalTime = 25 * 60;
+        let isRunning = false;
+        let isBreak = false;
+        let sessionsCompleted = 0;
+        let timerInterval;
+
+        const timerDisplay = document.getElementById('timer');
+        const labelDisplay = document.getElementById('label');
+        const startBtn = document.getElementById('startBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const sessionsDisplay = document.getElementById('sessions');
+
+        function updateDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function startTimer() {
+            if (isRunning) {
+                isRunning = false;
+                startBtn.textContent = 'Begin';
+                clearInterval(timerInterval);
+            } else {
+                isRunning = true;
+                startBtn.textContent = 'Pause';
+                timerInterval = setInterval(() => {
+                    if (timeLeft > 0) {
+                        timeLeft--;
+                        updateDisplay();
+                    } else {
+                        clearInterval(timerInterval);
+                        isRunning = false;
+
+                        if (!isBreak) {
+                            sessionsCompleted++;
+                            sessionsDisplay.textContent = sessionsCompleted;
+                            isBreak = true;
+                            timeLeft = 5 * 60;
+                            totalTime = 5 * 60;
+                            labelDisplay.textContent = 'Rest Time';
+                            startBtn.textContent = 'Begin';
+                        } else {
+                            isBreak = false;
+                            timeLeft = 25 * 60;
+                            totalTime = 25 * 60;
+                            labelDisplay.textContent = 'Study Session';
+                            startBtn.textContent = 'Begin';
+                        }
+                        updateDisplay();
+                    }
+                }, 1000);
+            }
+        }
+
+        function resetTimer() {
+            clearInterval(timerInterval);
+            isRunning = false;
+            isBreak = false;
+            timeLeft = 25 * 60;
+            totalTime = 25 * 60;
+            labelDisplay.textContent = 'Study Session';
+            startBtn.textContent = 'Begin';
+            updateDisplay();
+        }
+
+        startBtn.addEventListener('click', startTimer);
+        resetBtn.addEventListener('click', resetTimer);
+
+        updateDisplay();
+    </script>
+</body>
+</html>

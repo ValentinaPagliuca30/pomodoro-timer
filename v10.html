@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v10: Magazine Editorial</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Playfair Display', Georgia, serif;
+            background: #fff;
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            color: #1a1a1a;
+        }
+
+        .sidebar {
+            background: #1a1a1a;
+            color: #fff;
+            padding: 60px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .sidebar h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 0.9;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+        .sidebar .issue {
+            font-size: 0.9rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            opacity: 0.6;
+            margin-bottom: 50px;
+        }
+
+        .sidebar .sessions {
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .sidebar .sessions span {
+            font-size: 4rem;
+            display: block;
+            margin-top: 15px;
+            font-style: italic;
+        }
+
+        .main-content {
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .timer-display {
+            font-size: 12rem;
+            font-weight: 300;
+            color: #1a1a1a;
+            margin-bottom: 40px;
+            line-height: 1;
+        }
+
+        .timer-label {
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 8px;
+            margin-bottom: 80px;
+            font-weight: 300;
+        }
+
+        .controls {
+            display: flex;
+            gap: 40px;
+        }
+
+        button {
+            background: none;
+            border: 2px solid #1a1a1a;
+            color: #1a1a1a;
+            padding: 20px 60px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            font-family: 'Playfair Display', serif;
+        }
+
+        button:hover {
+            background: #1a1a1a;
+            color: #fff;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="issue">Issue No. 001</div>
+        <h1>Focus<br>Time</h1>
+        <div class="sessions">
+            Completed<br>Sessions
+            <span id="sessions">0</span>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="timer-display" id="timer">25:00</div>
+        <div class="timer-label" id="label">Work Session</div>
+
+        <div class="controls">
+            <button id="startBtn">Start</button>
+            <button id="resetBtn">Reset</button>
+        </div>
+    </div>
+
+    <script>
+        let timeLeft = 25 * 60;
+        let totalTime = 25 * 60;
+        let isRunning = false;
+        let isBreak = false;
+        let sessionsCompleted = 0;
+        let timerInterval;
+
+        const timerDisplay = document.getElementById('timer');
+        const labelDisplay = document.getElementById('label');
+        const startBtn = document.getElementById('startBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const sessionsDisplay = document.getElementById('sessions');
+
+        function updateDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function startTimer() {
+            if (isRunning) {
+                isRunning = false;
+                startBtn.textContent = 'Start';
+                clearInterval(timerInterval);
+            } else {
+                isRunning = true;
+                startBtn.textContent = 'Pause';
+                timerInterval = setInterval(() => {
+                    if (timeLeft > 0) {
+                        timeLeft--;
+                        updateDisplay();
+                    } else {
+                        clearInterval(timerInterval);
+                        isRunning = false;
+
+                        if (!isBreak) {
+                            sessionsCompleted++;
+                            sessionsDisplay.textContent = sessionsCompleted;
+                            isBreak = true;
+                            timeLeft = 5 * 60;
+                            totalTime = 5 * 60;
+                            labelDisplay.textContent = 'Break Time';
+                            startBtn.textContent = 'Start';
+                        } else {
+                            isBreak = false;
+                            timeLeft = 25 * 60;
+                            totalTime = 25 * 60;
+                            labelDisplay.textContent = 'Work Session';
+                            startBtn.textContent = 'Start';
+                        }
+                        updateDisplay();
+                    }
+                }, 1000);
+            }
+        }
+
+        function resetTimer() {
+            clearInterval(timerInterval);
+            isRunning = false;
+            isBreak = false;
+            timeLeft = 25 * 60;
+            totalTime = 25 * 60;
+            labelDisplay.textContent = 'Work Session';
+            startBtn.textContent = 'Start';
+            updateDisplay();
+        }
+
+        startBtn.addEventListener('click', startTimer);
+        resetBtn.addEventListener('click', resetTimer);
+
+        updateDisplay();
+    </script>
+</body>
+</html>
