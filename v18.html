@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>v18: Full-screen Focus</title>
+    <title>v18: Pizza Progress</title>
     <style>
         * {
             margin: 0;
@@ -12,118 +12,174 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
-            background: linear-gradient(135deg, #5f72bd 0%, #9b23ea 100%);
+            font-family: 'Comic Sans MS', 'Chalkboard SE', cursive;
+            background: linear-gradient(135deg, #FF6B6B 0%, #FFE66D 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #fff;
-            padding: 20px;
+            color: #2d3436;
         }
 
         .container {
             text-align: center;
-            width: 100%;
-            max-width: 900px;
+            max-width: 700px;
+            padding: 40px;
         }
 
         h1 {
-            font-size: 2rem;
-            font-weight: 600;
-            margin-bottom: 60px;
-            color: rgba(255, 255, 255, 0.9);
-            letter-spacing: 1px;
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 50px;
+            color: #c0392b;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .pizza-container {
+            width: 300px;
+            height: 300px;
+            margin: 0 auto 40px;
+            position: relative;
+        }
+
+        .pizza {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: #f39c12;
+            position: relative;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        .pizza::before {
+            content: '';
+            position: absolute;
+            width: 90%;
+            height: 90%;
+            top: 5%;
+            left: 5%;
+            border-radius: 50%;
+            background: radial-gradient(circle, #e74c3c 0%, #c0392b 100%);
+        }
+
+        .pizza-slice {
+            position: absolute;
+            width: 50%;
+            height: 50%;
+            top: 50%;
+            left: 50%;
+            transform-origin: 0% 0%;
+            background: #27ae60;
+            clip-path: polygon(0 0, 100% 0, 0 100%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .pizza-slice.eaten {
+            opacity: 1;
+            background: #ecf0f1;
+        }
+
+        .toppings {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+
+        .topping {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #e67e22;
+            border-radius: 50%;
         }
 
         .timer-display {
-            font-size: 12rem;
-            font-weight: 100;
-            color: #fff;
-            margin-bottom: 40px;
-            letter-spacing: -8px;
-            text-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+            font-size: 8rem;
+            font-weight: 900;
+            margin-bottom: 30px;
+            color: #c0392b;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.2);
         }
 
         .timer-label {
             font-size: 1.5rem;
-            color: rgba(255, 255, 255, 0.8);
-            margin-bottom: 80px;
-            font-weight: 400;
-            letter-spacing: 2px;
+            margin-bottom: 60px;
+            color: #2d3436;
+            font-weight: 700;
         }
 
         .controls {
             display: flex;
-            gap: 25px;
+            gap: 20px;
             justify-content: center;
-            margin-bottom: 70px;
+            margin-bottom: 50px;
         }
 
         button {
-            background: rgba(255, 255, 255, 0.95);
+            background: #e74c3c;
             border: none;
-            color: #5f72bd;
-            padding: 22px 65px;
-            font-size: 1.1rem;
+            color: #fff;
+            padding: 20px 55px;
+            font-size: 1.2rem;
             cursor: pointer;
-            border-radius: 16px;
+            border-radius: 50px;
+            font-weight: 700;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
             transition: all 0.3s ease;
-            font-weight: 600;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+            font-family: inherit;
         }
 
         button:hover {
-            background: #fff;
+            background: #c0392b;
             transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
-        }
-
-        button:active {
-            transform: translateY(-1px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.3);
         }
 
         button#resetBtn {
-            background: rgba(255, 255, 255, 0.2);
-            color: #fff;
+            background: #f39c12;
         }
 
         button#resetBtn:hover {
-            background: rgba(255, 255, 255, 0.3);
+            background: #e67e22;
         }
 
         .sessions {
-            font-size: 1.2rem;
-            color: rgba(255, 255, 255, 0.9);
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
+            font-size: 1.3rem;
+            background: rgba(255,255,255,0.7);
             padding: 20px 50px;
-            border-radius: 30px;
+            border-radius: 40px;
             display: inline-block;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            font-weight: 700;
+            color: #2d3436;
         }
 
         .sessions span {
             font-size: 3rem;
-            font-weight: 600;
-            color: #fff;
+            color: #e74c3c;
             display: block;
-            margin-top: 12px;
-        }
-
-        @media (max-width: 768px) {
-            .timer-display {
-                font-size: 8rem;
-            }
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>FOCUS MODE</h1>
+        <h1>Pizza Power Study!</h1>
+
+        <div class="pizza-container">
+            <div class="pizza">
+                <div class="toppings" id="toppings"></div>
+                <svg width="300" height="300" style="position: absolute; top: 0; left: 0;" id="pizzaSlices">
+                    <!-- Slices will be drawn here -->
+                </svg>
+            </div>
+        </div>
 
         <div class="timer-display" id="timer">25:00</div>
-        <div class="timer-label" id="label">Work Session</div>
+        <div class="timer-label" id="label">Eat the pizza slice by slice!</div>
 
         <div class="controls">
             <button id="startBtn">Start</button>
@@ -131,12 +187,24 @@
         </div>
 
         <div class="sessions">
-            Completed
+            Pizzas eaten
             <span id="sessions">0</span>
         </div>
     </div>
 
     <script>
+        // Generate pizza toppings
+        const toppingsContainer = document.getElementById('toppings');
+        for (let i = 0; i < 15; i++) {
+            const topping = document.createElement('div');
+            topping.className = 'topping';
+            const angle = (Math.random() * 360) * Math.PI / 180;
+            const distance = 50 + Math.random() * 60;
+            topping.style.left = (150 + Math.cos(angle) * distance) + 'px';
+            topping.style.top = (150 + Math.sin(angle) * distance) + 'px';
+            toppingsContainer.appendChild(topping);
+        }
+
         let timeLeft = 25 * 60;
         let totalTime = 25 * 60;
         let isRunning = false;
@@ -149,11 +217,36 @@
         const startBtn = document.getElementById('startBtn');
         const resetBtn = document.getElementById('resetBtn');
         const sessionsDisplay = document.getElementById('sessions');
+        const pizzaSlices = document.getElementById('pizzaSlices');
 
         function updateDisplay() {
             const minutes = Math.floor(timeLeft / 60);
             const seconds = timeLeft % 60;
             timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+            // Update pizza - show eaten slices based on progress
+            const progress = ((totalTime - timeLeft) / totalTime);
+            const slicesEaten = Math.floor(progress * 8);
+
+            // Clear previous slices
+            pizzaSlices.innerHTML = '';
+
+            // Draw eaten slices
+            for (let i = 0; i < slicesEaten; i++) {
+                const angle = (360 / 8) * i;
+                const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                const startAngle = (angle - 90) * Math.PI / 180;
+                const endAngle = (angle + (360/8) - 90) * Math.PI / 180;
+                const x1 = 150 + 140 * Math.cos(startAngle);
+                const y1 = 150 + 140 * Math.sin(startAngle);
+                const x2 = 150 + 140 * Math.cos(endAngle);
+                const y2 = 150 + 140 * Math.sin(endAngle);
+
+                path.setAttribute('d', `M 150 150 L ${x1} ${y1} A 140 140 0 0 1 ${x2} ${y2} Z`);
+                path.setAttribute('fill', '#ecf0f1');
+                path.setAttribute('opacity', '0.8');
+                pizzaSlices.appendChild(path);
+            }
         }
 
         function startTimer() {
@@ -178,13 +271,13 @@
                             isBreak = true;
                             timeLeft = 5 * 60;
                             totalTime = 5 * 60;
-                            labelDisplay.textContent = 'Break Time';
+                            labelDisplay.textContent = 'Snack break!';
                             startBtn.textContent = 'Start';
                         } else {
                             isBreak = false;
                             timeLeft = 25 * 60;
                             totalTime = 25 * 60;
-                            labelDisplay.textContent = 'Work Session';
+                            labelDisplay.textContent = 'Eat the pizza slice by slice!';
                             startBtn.textContent = 'Start';
                         }
                         updateDisplay();
@@ -199,7 +292,7 @@
             isBreak = false;
             timeLeft = 25 * 60;
             totalTime = 25 * 60;
-            labelDisplay.textContent = 'Work Session';
+            labelDisplay.textContent = 'Eat the pizza slice by slice!';
             startBtn.textContent = 'Start';
             updateDisplay();
         }

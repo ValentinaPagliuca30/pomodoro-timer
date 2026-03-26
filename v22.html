@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>v22: Refined Animations</title>
+    <title>v22: Battery Charge</title>
     <style>
         * {
             margin: 0;
@@ -13,7 +13,7 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -23,150 +23,180 @@
 
         .container {
             text-align: center;
-            width: 100%;
-            max-width: 750px;
-            animation: fadeIn 0.6s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .tomato-icon {
-            font-size: 4rem;
-            margin-bottom: 25px;
-            animation: gentle-bounce 3s ease-in-out infinite;
-            filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.2));
-        }
-
-        @keyframes gentle-bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
+            max-width: 700px;
+            padding: 40px;
         }
 
         h1 {
-            font-size: 2.4rem;
-            font-weight: 600;
-            margin-bottom: 55px;
-            color: #fff;
-            opacity: 0;
-            animation: slideIn 0.6s ease 0.2s forwards;
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 50px;
+            color: #00ff88;
+            text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
         }
 
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
+        .battery-container {
+            width: 300px;
+            height: 140px;
+            margin: 0 auto 40px;
+            position: relative;
+        }
+
+        .battery {
+            width: 280px;
+            height: 140px;
+            border: 6px solid #00ff88;
+            border-radius: 15px;
+            position: relative;
+            background: rgba(0, 0, 0, 0.3);
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.3);
+        }
+
+        .battery-tip {
+            position: absolute;
+            right: -30px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 25px;
+            height: 60px;
+            background: #00ff88;
+            border-radius: 0 8px 8px 0;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
+        }
+
+        .battery-fill {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #00ff88 0%, #00cc6a 100%);
+            border-radius: 9px;
+            transition: width 1s linear;
+            box-shadow: inset 0 0 30px rgba(0, 255, 136, 0.5);
+        }
+
+        .battery-percentage {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3rem;
+            font-weight: 700;
+            color: #fff;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+
+        .lightning {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2.5rem;
+            animation: flash 1.5s infinite;
+            display: none;
+        }
+
+        @keyframes flash {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
         }
 
         .timer-display {
-            font-size: 10.5rem;
-            font-weight: 200;
-            color: #fff;
-            margin-bottom: 35px;
-            letter-spacing: -5px;
-            text-shadow: 0 6px 25px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease;
-        }
-
-        .timer-display.pulse {
-            animation: subtle-pulse 1s ease;
-        }
-
-        @keyframes subtle-pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.02); }
+            font-size: 7.5rem;
+            font-weight: 300;
+            margin-bottom: 30px;
+            color: #00ff88;
+            text-shadow: 0 0 30px rgba(0, 255, 136, 0.6);
+            letter-spacing: -3px;
         }
 
         .timer-label {
             font-size: 1.4rem;
-            color: rgba(255, 255, 255, 0.9);
-            margin-bottom: 70px;
-            font-weight: 400;
-            transition: all 0.3s ease;
+            margin-bottom: 60px;
+            color: #7fffd4;
+            letter-spacing: 1px;
         }
 
         .controls {
             display: flex;
             gap: 20px;
             justify-content: center;
-            margin-bottom: 60px;
+            margin-bottom: 50px;
         }
 
         button {
-            background: rgba(255, 255, 255, 0.95);
+            background: #00ff88;
             border: none;
-            color: #667eea;
-            padding: 20px 58px;
-            font-size: 1.08rem;
+            color: #0f2027;
+            padding: 20px 55px;
+            font-size: 1.1rem;
             cursor: pointer;
-            border-radius: 15px;
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            font-weight: 600;
-            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.15);
-        }
-
-        button:hover {
-            background: #fff;
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.22);
-        }
-
-        button:active {
-            transform: translateY(-1px) scale(0.98);
-            transition: all 0.1s ease;
-        }
-
-        button#resetBtn {
-            background: rgba(255, 255, 255, 0.22);
-            color: #fff;
-        }
-
-        button#resetBtn:hover {
-            background: rgba(255, 255, 255, 0.32);
-        }
-
-        .sessions {
-            font-size: 1.15rem;
-            color: rgba(255, 255, 255, 0.9);
-            background: rgba(255, 255, 255, 0.18);
-            backdrop-filter: blur(15px);
-            padding: 18px 45px;
-            border-radius: 28px;
-            display: inline-block;
-            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 12px;
+            font-weight: 700;
+            box-shadow: 0 8px 25px rgba(0, 255, 136, 0.3);
             transition: all 0.3s ease;
         }
 
-        .sessions:hover {
-            transform: translateY(-2px);
+        button:hover {
+            background: #00cc6a;
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(0, 255, 136, 0.5);
+        }
+
+        button#resetBtn {
+            background: rgba(0, 255, 136, 0.2);
+            color: #00ff88;
+            border: 2px solid #00ff88;
+        }
+
+        button#resetBtn:hover {
+            background: rgba(0, 255, 136, 0.3);
+        }
+
+        .sessions {
+            font-size: 1.2rem;
+            background: rgba(0, 255, 136, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 20px 50px;
+            border-radius: 30px;
+            display: inline-block;
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            color: #00ff88;
         }
 
         .sessions span {
             font-size: 2.8rem;
             font-weight: 600;
-            color: #fff;
             display: block;
             margin-top: 10px;
-            transition: all 0.3s ease;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="tomato-icon">🍅</div>
-        <h1>Pomodoro Flow</h1>
+        <h1>Power Up Your Focus</h1>
+
+        <div class="battery-container">
+            <div class="battery">
+                <div class="battery-fill" id="batteryFill"></div>
+                <div class="battery-percentage" id="percentage">0%</div>
+                <div class="lightning" id="lightning">⚡</div>
+            </div>
+            <div class="battery-tip"></div>
+        </div>
 
         <div class="timer-display" id="timer">25:00</div>
-        <div class="timer-label" id="label">Focus Time</div>
+        <div class="timer-label" id="label">Charge your productivity</div>
 
         <div class="controls">
-            <button id="startBtn">Start</button>
+            <button id="startBtn">Charge</button>
             <button id="resetBtn">Reset</button>
         </div>
 
         <div class="sessions">
-            Completed
+            Full charges
             <span id="sessions">0</span>
         </div>
     </div>
@@ -184,22 +214,34 @@
         const startBtn = document.getElementById('startBtn');
         const resetBtn = document.getElementById('resetBtn');
         const sessionsDisplay = document.getElementById('sessions');
+        const batteryFill = document.getElementById('batteryFill');
+        const percentage = document.getElementById('percentage');
+        const lightning = document.getElementById('lightning');
 
         function updateDisplay() {
             const minutes = Math.floor(timeLeft / 60);
             const seconds = timeLeft % 60;
             timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 
-            // Add pulse effect when timer updates
-            timerDisplay.classList.remove('pulse');
-            void timerDisplay.offsetWidth; // Trigger reflow
-            timerDisplay.classList.add('pulse');
+            // Update battery charge
+            const progress = ((totalTime - timeLeft) / totalTime);
+            batteryFill.style.width = (progress * 100) + '%';
+
+            const percent = Math.round(progress * 100);
+            percentage.textContent = percent + '%';
+
+            // Show lightning when charging
+            if (isRunning && progress < 1) {
+                lightning.style.display = 'block';
+            } else {
+                lightning.style.display = 'none';
+            }
         }
 
         function startTimer() {
             if (isRunning) {
                 isRunning = false;
-                startBtn.textContent = 'Start';
+                startBtn.textContent = 'Charge';
                 clearInterval(timerInterval);
             } else {
                 isRunning = true;
@@ -218,14 +260,14 @@
                             isBreak = true;
                             timeLeft = 5 * 60;
                             totalTime = 5 * 60;
-                            labelDisplay.textContent = 'Break Time';
-                            startBtn.textContent = 'Start';
+                            labelDisplay.textContent = 'Quick recharge break';
+                            startBtn.textContent = 'Charge';
                         } else {
                             isBreak = false;
                             timeLeft = 25 * 60;
                             totalTime = 25 * 60;
-                            labelDisplay.textContent = 'Focus Time';
-                            startBtn.textContent = 'Start';
+                            labelDisplay.textContent = 'Charge your productivity';
+                            startBtn.textContent = 'Charge';
                         }
                         updateDisplay();
                     }
@@ -239,8 +281,8 @@
             isBreak = false;
             timeLeft = 25 * 60;
             totalTime = 25 * 60;
-            labelDisplay.textContent = 'Focus Time';
-            startBtn.textContent = 'Start';
+            labelDisplay.textContent = 'Charge your productivity';
+            startBtn.textContent = 'Charge';
             updateDisplay();
         }
 

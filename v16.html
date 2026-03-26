@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>v16: iOS Clean</title>
+    <title>v16: Daylight Journey</title>
     <style>
         * {
             margin: 0;
@@ -13,135 +13,162 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
-            background: #f5f5f7;
+            background: linear-gradient(to bottom, #87CEEB 0%, #FDB99B 50%, #FF6B6B 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #1d1d1f;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+            transition: background 1s ease;
+        }
+
+        body.sunset {
+            background: linear-gradient(to bottom, #FF6B6B 0%, #FDB99B 50%, #4A4E69 100%);
+        }
+
+        .sun {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle, #FFD700 0%, #FFA500 100%);
+            border-radius: 50%;
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 60px rgba(255, 215, 0, 0.6);
+            transition: all 1s ease;
+        }
+
+        .clouds {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .cloud {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 100px;
+            animation: float 20s linear infinite;
+        }
+
+        .cloud::before,
+        .cloud::after {
+            content: '';
+            position: absolute;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 100px;
+        }
+
+        .cloud1 { width: 100px; height: 40px; top: 15%; left: -100px; animation-delay: 0s; }
+        .cloud1::before { width: 50px; height: 40px; top: -20px; left: 15px; }
+        .cloud1::after { width: 60px; height: 35px; top: -15px; right: 10px; }
+
+        .cloud2 { width: 120px; height: 45px; top: 25%; left: -120px; animation-delay: 5s; }
+        .cloud2::before { width: 55px; height: 45px; top: -22px; left: 20px; }
+        .cloud2::after { width: 65px; height: 40px; top: -18px; right: 15px; }
+
+        @keyframes float {
+            to { transform: translateX(calc(100vw + 200px)); }
         }
 
         .container {
             text-align: center;
-            max-width: 600px;
-            padding: 60px;
-            background: #fff;
-            border-radius: 30px;
-            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.08);
+            position: relative;
+            z-index: 1;
+            max-width: 700px;
+            padding: 40px;
         }
 
         h1 {
-            font-size: 2.2rem;
+            font-size: 2.8rem;
             font-weight: 600;
-            margin-bottom: 50px;
-            color: #1d1d1f;
+            margin-bottom: 60px;
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
 
         .timer-display {
-            font-size: 7.5rem;
+            font-size: 10rem;
             font-weight: 200;
-            color: #1d1d1f;
-            margin-bottom: 25px;
-            letter-spacing: -2px;
+            margin-bottom: 35px;
+            text-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+            letter-spacing: -5px;
         }
 
         .timer-label {
-            font-size: 1.1rem;
-            color: #86868b;
-            margin-bottom: 60px;
-            font-weight: 400;
+            font-size: 1.4rem;
+            margin-bottom: 70px;
+            opacity: 0.95;
         }
 
         .controls {
             display: flex;
             gap: 20px;
             justify-content: center;
-            margin-bottom: 50px;
+            margin-bottom: 60px;
         }
 
         button {
-            background: #007aff;
+            background: rgba(255, 255, 255, 0.95);
             border: none;
-            color: #fff;
-            padding: 16px 45px;
-            font-size: 1rem;
+            color: #4A4E69;
+            padding: 20px 55px;
+            font-size: 1.1rem;
             cursor: pointer;
-            border-radius: 12px;
-            transition: all 0.2s ease;
-            font-weight: 500;
+            border-radius: 15px;
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
         }
 
         button:hover {
-            background: #0051d5;
-            transform: scale(1.02);
-        }
-
-        button:active {
-            transform: scale(0.98);
+            background: #fff;
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
         }
 
         button#resetBtn {
-            background: #f5f5f7;
-            color: #007aff;
+            background: rgba(255, 255, 255, 0.25);
+            color: #fff;
         }
 
         button#resetBtn:hover {
-            background: #e8e8ed;
+            background: rgba(255, 255, 255, 0.35);
         }
 
         .sessions {
-            font-size: 1rem;
-            color: #86868b;
-            background: #f5f5f7;
-            padding: 15px 35px;
-            border-radius: 20px;
+            font-size: 1.2rem;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(15px);
+            padding: 20px 50px;
+            border-radius: 30px;
             display: inline-block;
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         .sessions span {
-            font-size: 2rem;
+            font-size: 2.8rem;
             font-weight: 600;
-            color: #1d1d1f;
             display: block;
-            margin-top: 8px;
-        }
-
-        .progress-ring {
-            width: 200px;
-            height: 200px;
-            margin: 0 auto 40px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #f5f5f7, #e8e8ed);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-
-        .progress-inner {
-            width: 180px;
-            height: 180px;
-            background: #fff;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            color: #007aff;
-            font-weight: 600;
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Focus</h1>
+    <div class="sun" id="sun"></div>
+    <div class="clouds">
+        <div class="cloud cloud1"></div>
+        <div class="cloud cloud2"></div>
+    </div>
 
-        <div class="progress-ring">
-            <div class="progress-inner" id="progress">0%</div>
-        </div>
+    <div class="container">
+        <h1>Daylight Journey</h1>
 
         <div class="timer-display" id="timer">25:00</div>
-        <div class="timer-label" id="label">Work Session</div>
+        <div class="timer-label" id="label">Watch the sun set as you focus</div>
 
         <div class="controls">
             <button id="startBtn">Start</button>
@@ -149,7 +176,7 @@
         </div>
 
         <div class="sessions">
-            Sessions Completed
+            Sunsets completed
             <span id="sessions">0</span>
         </div>
     </div>
@@ -167,15 +194,25 @@
         const startBtn = document.getElementById('startBtn');
         const resetBtn = document.getElementById('resetBtn');
         const sessionsDisplay = document.getElementById('sessions');
-        const progressDisplay = document.getElementById('progress');
+        const sun = document.getElementById('sun');
+        const body = document.body;
 
         function updateDisplay() {
             const minutes = Math.floor(timeLeft / 60);
             const seconds = timeLeft % 60;
             timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 
-            const progress = Math.round(((totalTime - timeLeft) / totalTime) * 100);
-            progressDisplay.textContent = progress + '%';
+            // Move sun as time progresses
+            const progress = ((totalTime - timeLeft) / totalTime);
+            const sunTop = 10 + (progress * 70); // Move from 10% to 80%
+            sun.style.top = sunTop + '%';
+
+            // Change to sunset colors in second half
+            if (progress > 0.5) {
+                body.classList.add('sunset');
+            } else {
+                body.classList.remove('sunset');
+            }
         }
 
         function startTimer() {
@@ -200,13 +237,13 @@
                             isBreak = true;
                             timeLeft = 5 * 60;
                             totalTime = 5 * 60;
-                            labelDisplay.textContent = 'Break Time';
+                            labelDisplay.textContent = 'Quick break under the stars';
                             startBtn.textContent = 'Start';
                         } else {
                             isBreak = false;
                             timeLeft = 25 * 60;
                             totalTime = 25 * 60;
-                            labelDisplay.textContent = 'Work Session';
+                            labelDisplay.textContent = 'Watch the sun set as you focus';
                             startBtn.textContent = 'Start';
                         }
                         updateDisplay();
@@ -221,7 +258,7 @@
             isBreak = false;
             timeLeft = 25 * 60;
             totalTime = 25 * 60;
-            labelDisplay.textContent = 'Work Session';
+            labelDisplay.textContent = 'Watch the sun set as you focus';
             startBtn.textContent = 'Start';
             updateDisplay();
         }

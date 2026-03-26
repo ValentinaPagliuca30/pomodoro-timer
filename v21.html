@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>v21: iOS + Tomato Icon</title>
+    <title>v21: Hourglass Flow</title>
     <style>
         * {
             margin: 0;
@@ -12,122 +12,160 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Palatino', 'Book Antiqua', serif;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #fff;
+            color: #ecf0f1;
         }
 
         .container {
             text-align: center;
-            width: 100%;
-            max-width: 750px;
-        }
-
-        .tomato-icon {
-            font-size: 4rem;
-            margin-bottom: 25px;
-            animation: gentle-float 4s ease-in-out infinite;
-            filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.2));
-        }
-
-        @keyframes gentle-float {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-10px) rotate(5deg); }
+            max-width: 700px;
+            padding: 40px;
         }
 
         h1 {
-            font-size: 2.4rem;
-            font-weight: 600;
-            margin-bottom: 55px;
-            color: #fff;
+            font-size: 2.5rem;
+            font-weight: 400;
+            margin-bottom: 50px;
+            color: #d4af37;
+            font-style: italic;
+            letter-spacing: 2px;
+        }
+
+        .hourglass-container {
+            width: 150px;
+            height: 300px;
+            margin: 0 auto 40px;
+            position: relative;
+        }
+
+        .hourglass {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            border: 4px solid #d4af37;
+            border-radius: 10px 10px 10px 10px;
+            background: rgba(52, 73, 94, 0.5);
+            overflow: hidden;
+        }
+
+        .hourglass::before {
+            content: '';
+            position: absolute;
+            top: 48%;
+            left: 0;
+            right: 0;
+            height: 4%;
+            background: #34495e;
+            clip-path: polygon(0 0, 100% 0, 80% 100%, 20% 100%);
+        }
+
+        .sand-top {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to bottom, #f39c12, #e67e22);
+            transition: height 1s linear;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .sand-bottom {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 0%;
+            background: linear-gradient(to top, #f39c12, #e67e22);
+            transition: height 1s linear;
+            border-radius: 0 0 8px 8px;
         }
 
         .timer-display {
-            font-size: 10.5rem;
-            font-weight: 200;
-            color: #fff;
-            margin-bottom: 35px;
-            letter-spacing: -5px;
-            text-shadow: 0 6px 25px rgba(0, 0, 0, 0.2);
+            font-size: 7.5rem;
+            font-weight: 300;
+            margin-bottom: 30px;
+            color: #d4af37;
+            text-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
         }
 
         .timer-label {
-            font-size: 1.4rem;
-            color: rgba(255, 255, 255, 0.9);
-            margin-bottom: 70px;
-            font-weight: 400;
+            font-size: 1.3rem;
+            margin-bottom: 60px;
+            color: #bdc3c7;
+            font-style: italic;
         }
 
         .controls {
             display: flex;
             gap: 20px;
             justify-content: center;
-            margin-bottom: 60px;
+            margin-bottom: 50px;
         }
 
         button {
-            background: rgba(255, 255, 255, 0.95);
-            border: none;
-            color: #667eea;
-            padding: 20px 58px;
-            font-size: 1.08rem;
+            background: transparent;
+            border: 2px solid #d4af37;
+            color: #d4af37;
+            padding: 18px 50px;
+            font-size: 1.1rem;
             cursor: pointer;
-            border-radius: 15px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 8px;
             font-weight: 600;
-            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.15);
+            font-family: 'Palatino', serif;
+            transition: all 0.3s ease;
         }
 
         button:hover {
-            background: #fff;
+            background: rgba(212, 175, 55, 0.1);
             transform: translateY(-2px);
-            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.22);
-        }
-
-        button:active {
-            transform: translateY(0);
+            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.2);
         }
 
         button#resetBtn {
-            background: rgba(255, 255, 255, 0.22);
-            color: #fff;
+            border-color: #95a5a6;
+            color: #95a5a6;
         }
 
         button#resetBtn:hover {
-            background: rgba(255, 255, 255, 0.32);
+            background: rgba(149, 165, 166, 0.1);
         }
 
         .sessions {
-            font-size: 1.15rem;
-            color: rgba(255, 255, 255, 0.9);
-            background: rgba(255, 255, 255, 0.18);
-            backdrop-filter: blur(15px);
+            font-size: 1.2rem;
+            background: rgba(212, 175, 55, 0.1);
             padding: 18px 45px;
-            border-radius: 28px;
+            border-radius: 25px;
             display: inline-block;
-            border: 1px solid rgba(255, 255, 255, 0.25);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            color: #d4af37;
         }
 
         .sessions span {
-            font-size: 2.8rem;
+            font-size: 2.5rem;
             font-weight: 600;
-            color: #fff;
             display: block;
-            margin-top: 10px;
+            margin-top: 8px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="tomato-icon">🍅</div>
-        <h1>Pomodoro Flow</h1>
+        <h1>Time Flows Like Sand</h1>
+
+        <div class="hourglass-container">
+            <div class="hourglass">
+                <div class="sand-top" id="sandTop"></div>
+                <div class="sand-bottom" id="sandBottom"></div>
+            </div>
+        </div>
 
         <div class="timer-display" id="timer">25:00</div>
-        <div class="timer-label" id="label">Focus Time</div>
+        <div class="timer-label" id="label">Watch the sand flow down</div>
 
         <div class="controls">
             <button id="startBtn">Start</button>
@@ -135,7 +173,7 @@
         </div>
 
         <div class="sessions">
-            Completed
+            Hourglasses flipped
             <span id="sessions">0</span>
         </div>
     </div>
@@ -153,11 +191,21 @@
         const startBtn = document.getElementById('startBtn');
         const resetBtn = document.getElementById('resetBtn');
         const sessionsDisplay = document.getElementById('sessions');
+        const sandTop = document.getElementById('sandTop');
+        const sandBottom = document.getElementById('sandBottom');
 
         function updateDisplay() {
             const minutes = Math.floor(timeLeft / 60);
             const seconds = timeLeft % 60;
             timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+            // Update sand levels
+            const progress = ((totalTime - timeLeft) / totalTime);
+            const topHeight = (1 - progress) * 48; // Top half (48% of hourglass)
+            const bottomHeight = progress * 48; // Bottom half
+
+            sandTop.style.height = topHeight + '%';
+            sandBottom.style.height = bottomHeight + '%';
         }
 
         function startTimer() {
@@ -182,13 +230,13 @@
                             isBreak = true;
                             timeLeft = 5 * 60;
                             totalTime = 5 * 60;
-                            labelDisplay.textContent = 'Break Time';
+                            labelDisplay.textContent = 'Brief pause, flip the glass';
                             startBtn.textContent = 'Start';
                         } else {
                             isBreak = false;
                             timeLeft = 25 * 60;
                             totalTime = 25 * 60;
-                            labelDisplay.textContent = 'Focus Time';
+                            labelDisplay.textContent = 'Watch the sand flow down';
                             startBtn.textContent = 'Start';
                         }
                         updateDisplay();
@@ -203,7 +251,7 @@
             isBreak = false;
             timeLeft = 25 * 60;
             totalTime = 25 * 60;
-            labelDisplay.textContent = 'Focus Time';
+            labelDisplay.textContent = 'Watch the sand flow down';
             startBtn.textContent = 'Start';
             updateDisplay();
         }

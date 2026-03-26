@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>v19: Smooth Blue</title>
+    <title>v19: Candle Burn</title>
     <style>
         * {
             margin: 0;
@@ -12,150 +12,177 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            font-family: 'Georgia', serif;
+            background: linear-gradient(to bottom, #1a1a2e 0%, #16213e 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #fff;
-            position: relative;
-            overflow: hidden;
-        }
-
-        body::before {
-            content: '';
-            position: absolute;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
-            border-radius: 50%;
-            top: -200px;
-            right: -100px;
-        }
-
-        body::after {
-            content: '';
-            position: absolute;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 70%);
-            border-radius: 50%;
-            bottom: -250px;
-            left: -150px;
+            color: #f5f5f5;
         }
 
         .container {
             text-align: center;
-            width: 100%;
-            max-width: 800px;
-            position: relative;
-            z-index: 1;
+            max-width: 700px;
+            padding: 40px;
         }
 
         h1 {
-            font-size: 2.2rem;
-            font-weight: 500;
-            margin-bottom: 60px;
-            color: #fff;
-            opacity: 0.95;
+            font-size: 2.5rem;
+            font-weight: 300;
+            margin-bottom: 50px;
+            color: #ffa500;
+            font-style: italic;
+            text-shadow: 0 0 20px rgba(255, 165, 0, 0.5);
+        }
+
+        .candle-container {
+            width: 120px;
+            height: 350px;
+            margin: 0 auto 40px;
+            position: relative;
+        }
+
+        .flame {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 60px;
+            background: radial-gradient(ellipse at center bottom, #fff 0%, #ffd700 20%, #ff8c00 50%, #ff4500 100%);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            animation: flicker 0.3s infinite alternate;
+            box-shadow: 0 0 40px rgba(255, 140, 0, 0.8);
+        }
+
+        @keyframes flicker {
+            0% { transform: translateX(-50%) scale(1, 1); }
+            100% { transform: translateX(-50%) scale(1.05, 0.95); }
+        }
+
+        .wick {
+            position: absolute;
+            top: 45px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 20px;
+            background: #333;
+        }
+
+        .candle-body {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 280px;
+            background: linear-gradient(to bottom, #f4e4c1 0%, #d4c4a1 100%);
+            border-radius: 10px 10px 5px 5px;
+            box-shadow: 0 5px 30px rgba(0,0,0,0.5);
+        }
+
+        .wax-drip {
+            position: absolute;
+            width: 100%;
+            height: 0;
+            top: 0;
+            background: linear-gradient(to bottom, transparent 0%, #f4e4c1 100%);
+            transition: height 1s linear;
         }
 
         .timer-display {
-            font-size: 11rem;
-            font-weight: 200;
-            color: #fff;
-            margin-bottom: 35px;
-            letter-spacing: -6px;
-            text-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
-            animation: fadeIn 0.5s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            font-size: 7rem;
+            font-weight: 300;
+            margin-bottom: 25px;
+            color: #ffa500;
+            text-shadow: 0 0 30px rgba(255, 165, 0, 0.6);
         }
 
         .timer-label {
-            font-size: 1.4rem;
-            color: rgba(255, 255, 255, 0.85);
-            margin-bottom: 75px;
-            font-weight: 400;
+            font-size: 1.3rem;
+            margin-bottom: 60px;
+            color: #d4af37;
+            font-style: italic;
         }
 
         .controls {
             display: flex;
-            gap: 22px;
+            gap: 20px;
             justify-content: center;
-            margin-bottom: 65px;
+            margin-bottom: 50px;
         }
 
         button {
-            background: rgba(255, 255, 255, 0.95);
-            border: none;
-            color: #4facfe;
-            padding: 20px 60px;
-            font-size: 1.05rem;
+            background: rgba(255, 165, 0, 0.2);
+            border: 2px solid #ffa500;
+            color: #ffa500;
+            padding: 18px 50px;
+            font-size: 1.1rem;
             cursor: pointer;
-            border-radius: 14px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 10px;
             font-weight: 600;
-            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12);
+            font-family: Georgia, serif;
+            transition: all 0.3s ease;
         }
 
         button:hover {
-            background: #fff;
+            background: rgba(255, 165, 0, 0.3);
             transform: translateY(-2px);
-            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.18);
-        }
-
-        button:active {
-            transform: translateY(0);
+            box-shadow: 0 8px 25px rgba(255, 165, 0, 0.3);
         }
 
         button#resetBtn {
-            background: rgba(255, 255, 255, 0.25);
-            color: #fff;
+            border-color: #d4af37;
+            color: #d4af37;
+            background: rgba(212, 175, 55, 0.1);
         }
 
         button#resetBtn:hover {
-            background: rgba(255, 255, 255, 0.35);
+            background: rgba(212, 175, 55, 0.2);
         }
 
         .sessions {
-            font-size: 1.15rem;
-            color: rgba(255, 255, 255, 0.9);
-            background: rgba(255, 255, 255, 0.18);
-            backdrop-filter: blur(15px);
+            font-size: 1.2rem;
+            background: rgba(255, 165, 0, 0.1);
             padding: 18px 45px;
-            border-radius: 28px;
+            border-radius: 25px;
             display: inline-block;
-            border: 1px solid rgba(255, 255, 255, 0.25);
+            border: 1px solid rgba(255, 165, 0, 0.3);
+            color: #ffa500;
         }
 
         .sessions span {
-            font-size: 2.8rem;
+            font-size: 2.5rem;
             font-weight: 600;
-            color: #fff;
             display: block;
-            margin-top: 10px;
+            margin-top: 8px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Study Flow</h1>
+        <h1>Candlelight Focus</h1>
+
+        <div class="candle-container">
+            <div class="flame"></div>
+            <div class="wick"></div>
+            <div class="candle-body" id="candleBody">
+                <div class="wax-drip" id="waxDrip"></div>
+            </div>
+        </div>
 
         <div class="timer-display" id="timer">25:00</div>
-        <div class="timer-label" id="label">Focus Session</div>
+        <div class="timer-label" id="label">Watch the candle burn as you study</div>
 
         <div class="controls">
-            <button id="startBtn">Start</button>
+            <button id="startBtn">Light It</button>
             <button id="resetBtn">Reset</button>
         </div>
 
         <div class="sessions">
-            Sessions
+            Candles burned
             <span id="sessions">0</span>
         </div>
     </div>
@@ -173,17 +200,25 @@
         const startBtn = document.getElementById('startBtn');
         const resetBtn = document.getElementById('resetBtn');
         const sessionsDisplay = document.getElementById('sessions');
+        const candleBody = document.getElementById('candleBody');
+        const waxDrip = document.getElementById('waxDrip');
 
         function updateDisplay() {
             const minutes = Math.floor(timeLeft / 60);
             const seconds = timeLeft % 60;
             timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+            // Burn down the candle
+            const progress = ((totalTime - timeLeft) / totalTime);
+            const candleHeight = 280 - (progress * 200); // Burn from 280px to 80px
+            candleBody.style.height = candleHeight + 'px';
+            waxDrip.style.height = (progress * 30) + 'px';
         }
 
         function startTimer() {
             if (isRunning) {
                 isRunning = false;
-                startBtn.textContent = 'Start';
+                startBtn.textContent = 'Light It';
                 clearInterval(timerInterval);
             } else {
                 isRunning = true;
@@ -202,14 +237,14 @@
                             isBreak = true;
                             timeLeft = 5 * 60;
                             totalTime = 5 * 60;
-                            labelDisplay.textContent = 'Break Time';
-                            startBtn.textContent = 'Start';
+                            labelDisplay.textContent = 'Rest in the glow';
+                            startBtn.textContent = 'Light It';
                         } else {
                             isBreak = false;
                             timeLeft = 25 * 60;
                             totalTime = 25 * 60;
-                            labelDisplay.textContent = 'Focus Session';
-                            startBtn.textContent = 'Start';
+                            labelDisplay.textContent = 'Watch the candle burn as you study';
+                            startBtn.textContent = 'Light It';
                         }
                         updateDisplay();
                     }
@@ -223,8 +258,8 @@
             isBreak = false;
             timeLeft = 25 * 60;
             totalTime = 25 * 60;
-            labelDisplay.textContent = 'Focus Session';
-            startBtn.textContent = 'Start';
+            labelDisplay.textContent = 'Watch the candle burn as you study';
+            startBtn.textContent = 'Light It';
             updateDisplay();
         }
 

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>v24: Polish Details</title>
+    <title>v24: Ocean Wave</title>
     <style>
         * {
             margin: 0;
@@ -12,191 +12,184 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
-            background: linear-gradient(135deg, #5f72bd 0%, #9b23ea 100%);
+            font-family: 'Gill Sans', 'Avenir', sans-serif;
+            background: linear-gradient(to bottom, #1e3c72 0%, #2a5298 50%, #7474bf 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             color: #fff;
-            position: relative;
             overflow: hidden;
+            position: relative;
         }
 
-        body::before {
-            content: '';
+        .wave-background {
             position: absolute;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(155, 35, 234, 0.12) 0%, transparent 70%);
-            border-radius: 50%;
-            top: -150px;
-            right: -100px;
-            animation: float1 20s ease-in-out infinite;
+            bottom: 0;
+            width: 100%;
+            height: 0%;
+            background: linear-gradient(to top, #4facfe 0%, #00f2fe 100%);
+            transition: height 1s ease;
         }
 
-        @keyframes float1 {
-            0%, 100% { transform: translate(0, 0); }
-            50% { transform: translate(30px, 30px); }
-        }
-
-        body::after {
-            content: '';
+        .wave {
             position: absolute;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(95, 114, 189, 0.12) 0%, transparent 70%);
-            border-radius: 50%;
-            bottom: -200px;
-            left: -150px;
-            animation: float2 25s ease-in-out infinite;
+            bottom: 0;
+            left: 0;
+            width: 200%;
+            height: 150px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" fill="rgba(255,255,255,0.1)"/></svg>') repeat-x;
+            animation: wave 10s linear infinite;
         }
 
-        @keyframes float2 {
-            0%, 100% { transform: translate(0, 0); }
-            50% { transform: translate(-30px, -30px); }
+        .wave2 {
+            bottom: 10px;
+            opacity: 0.5;
+            animation: wave 15s linear infinite reverse;
+        }
+
+        @keyframes wave {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
         }
 
         .container {
             text-align: center;
-            width: 100%;
-            max-width: 750px;
+            max-width: 700px;
+            padding: 40px;
             position: relative;
             z-index: 1;
-            animation: fadeIn 0.7s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(25px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .tomato-icon {
-            font-size: 4.2rem;
-            margin-bottom: 28px;
-            animation: gentle-bounce 3.5s ease-in-out infinite;
-            filter: drop-shadow(0 6px 18px rgba(0, 0, 0, 0.28));
-        }
-
-        @keyframes gentle-bounce {
-            0%, 100% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(-10px) scale(1.02); }
         }
 
         h1 {
-            font-size: 2.5rem;
-            font-weight: 600;
-            margin-bottom: 58px;
-            color: #fff;
-            letter-spacing: 0.5px;
+            font-size: 3rem;
+            font-weight: 300;
+            margin-bottom: 50px;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            letter-spacing: 2px;
+        }
+
+        .glass-container {
+            width: 200px;
+            height: 350px;
+            margin: 0 auto 40px;
+            border: 5px solid rgba(255, 255, 255, 0.5);
+            border-radius: 15px;
+            position: relative;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(5px);
+            overflow: hidden;
+        }
+
+        .water {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 0%;
+            background: linear-gradient(to top, #4facfe 0%, rgba(79, 172, 254, 0.8) 100%);
+            transition: height 1s ease;
+        }
+
+        .water-surface {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.3);
+            filter: blur(8px);
         }
 
         .timer-display {
-            font-size: 11.5rem;
+            font-size: 8rem;
             font-weight: 200;
-            color: #fff;
-            margin-bottom: 38px;
-            letter-spacing: -7px;
-            text-shadow: 0 10px 35px rgba(0, 0, 0, 0.28);
+            margin-bottom: 30px;
+            text-shadow: 0 6px 25px rgba(0,0,0,0.4);
+            letter-spacing: -4px;
         }
 
         .timer-label {
-            font-size: 1.45rem;
-            color: rgba(255, 255, 255, 0.93);
-            margin-bottom: 72px;
-            font-weight: 400;
-            letter-spacing: 0.8px;
+            font-size: 1.5rem;
+            margin-bottom: 60px;
+            opacity: 0.9;
+            letter-spacing: 1px;
         }
 
         .controls {
             display: flex;
-            gap: 22px;
+            gap: 20px;
             justify-content: center;
-            margin-bottom: 62px;
+            margin-bottom: 50px;
         }
 
         button {
-            background: rgba(255, 255, 255, 0.97);
-            border: none;
-            color: #5f72bd;
-            padding: 21px 60px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            color: #fff;
+            padding: 20px 55px;
             font-size: 1.1rem;
             cursor: pointer;
-            border-radius: 17px;
-            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border-radius: 50px;
             font-weight: 600;
-            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.2);
-            letter-spacing: 0.3px;
+            transition: all 0.3s ease;
         }
 
         button:hover {
-            background: #fff;
-            transform: translateY(-4px) scale(1.03);
-            box-shadow: 0 16px 45px rgba(0, 0, 0, 0.28);
-        }
-
-        button:active {
-            transform: translateY(-2px) scale(0.99);
-            transition: all 0.12s ease;
+            background: rgba(255, 255, 255, 0.3);
+            border-color: #fff;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
 
         button#resetBtn {
-            background: rgba(255, 255, 255, 0.24);
-            color: #fff;
-        }
-
-        button#resetBtn:hover {
-            background: rgba(255, 255, 255, 0.34);
+            background: rgba(255, 255, 255, 0.1);
         }
 
         .sessions {
-            font-size: 1.18rem;
-            color: rgba(255, 255, 255, 0.94);
-            background: rgba(255, 255, 255, 0.21);
-            backdrop-filter: blur(20px);
-            padding: 20px 48px;
-            border-radius: 32px;
+            font-size: 1.2rem;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            padding: 20px 50px;
+            border-radius: 35px;
             display: inline-block;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            transition: all 0.35s ease;
-            letter-spacing: 0.5px;
-        }
-
-        .sessions:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.3);
         }
 
         .sessions span {
-            font-size: 2.9rem;
+            font-size: 2.8rem;
             font-weight: 600;
-            color: #fff;
             display: block;
-            margin-top: 12px;
-        }
-
-        @media (max-width: 768px) {
-            .timer-display {
-                font-size: 8rem;
-            }
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
+    <div class="wave-background" id="waveBackground">
+        <div class="wave"></div>
+        <div class="wave wave2"></div>
+    </div>
+
     <div class="container">
-        <div class="tomato-icon">🍅</div>
-        <h1>Pomodoro Flow</h1>
+        <h1>Ocean of Focus</h1>
+
+        <div class="glass-container">
+            <div class="water" id="water">
+                <div class="water-surface"></div>
+            </div>
+        </div>
 
         <div class="timer-display" id="timer">25:00</div>
-        <div class="timer-label" id="label">Focus Time</div>
+        <div class="timer-label" id="label">Fill the ocean with your dedication</div>
 
         <div class="controls">
-            <button id="startBtn">Start</button>
+            <button id="startBtn">Flow</button>
             <button id="resetBtn">Reset</button>
         </div>
 
         <div class="sessions">
-            Completed
+            Oceans filled
             <span id="sessions">0</span>
         </div>
     </div>
@@ -214,17 +207,24 @@
         const startBtn = document.getElementById('startBtn');
         const resetBtn = document.getElementById('resetBtn');
         const sessionsDisplay = document.getElementById('sessions');
+        const water = document.getElementById('water');
+        const waveBackground = document.getElementById('waveBackground');
 
         function updateDisplay() {
             const minutes = Math.floor(timeLeft / 60);
             const seconds = timeLeft % 60;
             timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+            // Fill water
+            const progress = ((totalTime - timeLeft) / totalTime);
+            water.style.height = (progress * 100) + '%';
+            waveBackground.style.height = (progress * 30) + '%';
         }
 
         function startTimer() {
             if (isRunning) {
                 isRunning = false;
-                startBtn.textContent = 'Start';
+                startBtn.textContent = 'Flow';
                 clearInterval(timerInterval);
             } else {
                 isRunning = true;
@@ -243,14 +243,14 @@
                             isBreak = true;
                             timeLeft = 5 * 60;
                             totalTime = 5 * 60;
-                            labelDisplay.textContent = 'Break Time';
-                            startBtn.textContent = 'Start';
+                            labelDisplay.textContent = 'Ride the wave of rest';
+                            startBtn.textContent = 'Flow';
                         } else {
                             isBreak = false;
                             timeLeft = 25 * 60;
                             totalTime = 25 * 60;
-                            labelDisplay.textContent = 'Focus Time';
-                            startBtn.textContent = 'Start';
+                            labelDisplay.textContent = 'Fill the ocean with your dedication';
+                            startBtn.textContent = 'Flow';
                         }
                         updateDisplay();
                     }
@@ -264,8 +264,8 @@
             isBreak = false;
             timeLeft = 25 * 60;
             totalTime = 25 * 60;
-            labelDisplay.textContent = 'Focus Time';
-            startBtn.textContent = 'Start';
+            labelDisplay.textContent = 'Fill the ocean with your dedication';
+            startBtn.textContent = 'Flow';
             updateDisplay();
         }
 
