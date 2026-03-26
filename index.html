@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pomodoro Timer - Design Gallery</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 60px;
+        }
+
+        header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .intro {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 50px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .intro h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .version-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .version-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+        }
+
+        .version-preview {
+            width: 100%;
+            height: 240px;
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 3px solid #667eea;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .version-preview iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            pointer-events: none;
+        }
+
+        .version-info {
+            padding: 20px;
+        }
+
+        .version-number {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .version-title {
+            font-size: 1.3rem;
+            color: #333;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .version-description {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .view-button {
+            display: block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            text-align: center;
+            font-weight: 500;
+            transition: background 0.3s;
+        }
+
+        .view-button:hover {
+            background: #5568d3;
+        }
+
+        .final-version {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            margin-bottom: 60px;
+        }
+
+        .final-version h2 {
+            color: #667eea;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .final-preview {
+            width: 100%;
+            height: 500px;
+            border: 3px solid #667eea;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        footer {
+            text-align: center;
+            color: white;
+            padding: 20px;
+            font-size: 0.9rem;
+        }
+
+        .phase-header {
+            color: white;
+            font-size: 1.5rem;
+            margin: 50px 0 20px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(255,255,255,0.3);
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Pomodoro Study Timer</h1>
+            <p>25 Design Iterations - A Rapid Prototyping Journey</p>
+        </header>
+
+        <div class="intro">
+            <h2>About This Project</h2>
+            <p>This gallery showcases the design process of creating a Pomodoro study timer for students. Starting with a simple idea, I explored 25 radically different visual styles, layouts, and moods before converging on a final design.</p>
+            <p style="margin-top: 15px;"><strong>The Journey:</strong> Wide exploration (v1-v15) → Narrowing down (v16-v20) → Refinement (v21-v25)</p>
+        </div>
+
+        <h3 class="phase-header">Phase 1: Wide Exploration (v1-v5)</h3>
+        <div class="gallery">
+            <div class="version-card">
+                <div class="version-preview">
+                    <iframe src="v1.html"></iframe>
+                </div>
+                <div class="version-info">
+                    <span class="version-number">v1</span>
+                    <h3 class="version-title">Minimal Zen</h3>
+                    <p class="version-description">Clean, minimal design with soft colors and generous whitespace. Focus on simplicity.</p>
+                    <a href="v1.html" class="view-button" target="_blank">View Full Page</a>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-preview">
+                    <iframe src="v2.html"></iframe>
+                </div>
+                <div class="version-info">
+                    <span class="version-number">v2</span>
+                    <h3 class="version-title">Brutalist Bold</h3>
+                    <p class="version-description">Raw, stark design with bold typography and high contrast. No-nonsense approach.</p>
+                    <a href="v2.html" class="view-button" target="_blank">View Full Page</a>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-preview">
+                    <iframe src="v3.html"></iframe>
+                </div>
+                <div class="version-info">
+                    <span class="version-number">v3</span>
+                    <h3 class="version-title">Colorful Energy</h3>
+                    <p class="version-description">Vibrant gradients and playful colors. Energetic vibe to motivate studying.</p>
+                    <a href="v3.html" class="view-button" target="_blank">View Full Page</a>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-preview">
+                    <iframe src="v4.html"></iframe>
+                </div>
+                <div class="version-info">
+                    <span class="version-number">v4</span>
+                    <h3 class="version-title">Dark Focus</h3>
+                    <p class="version-description">Dark mode with neon accents. Reduced eye strain for late-night study sessions.</p>
+                    <a href="v4.html" class="view-button" target="_blank">View Full Page</a>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-preview">
+                    <iframe src="v5.html"></iframe>
+                </div>
+                <div class="version-info">
+                    <span class="version-number">v5</span>
+                    <h3 class="version-title">Playful Tomato</h3>
+                    <p class="version-description">Fun, illustration-based design with tomato character. Lighthearted approach.</p>
+                    <a href="v5.html" class="view-button" target="_blank">View Full Page</a>
+                </div>
+            </div>
+        </div>
+
+        <h3 class="phase-header">Phase 2: Continued Exploration (v6-v15)</h3>
+        <div class="gallery">
+            <div class="version-card">
+                <div class="version-preview">
+                    <iframe src="v6.html"></iframe>
+                </div>
+                <div class="version-info">
+                    <span class="version-number">v6</span>
+                    <h3 class="version-title">Retro 80s</h3>
+                    <p class="version-description">Pixel art aesthetic with vintage neon colors and nostalgic vibes. Vaporwave energy.</p>
+                    <a href="v6.html" class="view-button" target="_blank">View Full Page</a>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-preview">
+                    <iframe src="v7.html"></iframe>
+                </div>
+                <div class="version-info">
+                    <span class="version-number">v7</span>
+                    <h3 class="version-title">Glassmorphism</h3>
+                    <p class="version-description">Frosted glass effects with blur and transparency. Modern, trendy aesthetic.</p>
+                    <a href="v7.html" class="view-button" target="_blank">View Full Page</a>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-preview">
+                    <iframe src="v8.html"></iframe>
+                </div>
+                <div class="version-info">
+                    <span class="version-number">v8</span>
+                    <h3 class="version-title">Nature Inspired</h3>
+                    <p class="version-description">Green earth tones with organic shapes. Calming natural aesthetic for focus.</p>
+                    <a href="v8.html" class="view-button" target="_blank">View Full Page</a>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-preview">
+                    <iframe src="v9.html"></iframe>
+                </div>
+                <div class="version-info">
+                    <span class="version-number">v9</span>
+                    <h3 class="version-title">Neon Cyberpunk</h3>
+                    <p class="version-description">Bright neon lights and futuristic vibes. High energy cyberpunk aesthetic.</p>
+                    <a href="v9.html" class="view-button" target="_blank">View Full Page</a>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-preview">
+                    <iframe src="v10.html"></iframe>
+                </div>
+                <div class="version-info">
+                    <span class="version-number">v10</span>
+                    <h3 class="version-title">Magazine Editorial</h3>
+                    <p class="version-description">Grid-based layout with sophisticated typography. Editorial magazine style.</p>
+                    <a href="v10.html" class="view-button" target="_blank">View Full Page</a>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-preview">
+                    <iframe src="v11.html"></iframe>
+                </div>
+                <div class="version-info">
+                    <span class="version-number">v11</span>
+                    <h3 class="version-title">Academic Classic</h3>
+                    <p class="version-description">Serif fonts and traditional design. Library-like scholarly atmosphere.</p>
+                    <a href="v11.html" class="view-button" target="_blank">View Full Page</a>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-preview">
+                    <iframe src="v12.html"></iframe>
+                </div>
+                <div class="version-info">
+                    <span class="version-number">v12</span>
+                    <h3 class="version-title">Pastel Soft</h3>
+                    <p class="version-description">Soft pastel gradients with dreamy atmosphere. Gentle and calming aesthetic.</p>
+                    <a href="v12.html" class="view-button" target="_blank">View Full Page</a>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-preview">
+                    <iframe src="v13.html"></iframe>
+                </div>
+                <div class="version-info">
+                    <span class="version-number">v13</span>
+                    <h3 class="version-title">Monochrome</h3>
+                    <p class="version-description">Pure black and white. Stark simplicity with high impact contrast.</p>
+                    <a href="v13.html" class="view-button" target="_blank">View Full Page</a>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-preview">
+                    <iframe src="v14.html"></iframe>
+                </div>
+                <div class="version-info">
+                    <span class="version-number">v14</span>
+                    <h3 class="version-title">Neumorphism</h3>
+                    <p class="version-description">Soft shadows and 3D depth effects. Tactile, embossed design style.</p>
+                    <a href="v14.html" class="view-button" target="_blank">View Full Page</a>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-preview">
+                    <iframe src="v15.html"></iframe>
+                </div>
+                <div class="version-info">
+                    <span class="version-number">v15</span>
+                    <h3 class="version-title">Animated Joy</h3>
+                    <p class="version-description">Bouncy animations and rainbow colors. Super playful and energetic design.</p>
+                    <a href="v15.html" class="view-button" target="_blank">View Full Page</a>
+                </div>
+            </div>
+        </div>
+
+        <h3 class="phase-header">Phase 3: Narrowing Down (v16-v20)</h3>
+        <div class="gallery">
+            <div class="version-card">
+                <div class="version-preview">
+                    <iframe src="v16.html"></iframe>
+                </div>
+                <div class="version-info">
+                    <span class="version-number">v16</span>
+                    <h3 class="version-title">iOS Clean</h3>
+                    <p class="version-description">Apple-inspired design with rounded corners and minimalist aesthetic. Starting to converge.</p>
+                    <a href="v16.html" class="view-button" target="_blank">View Full Page</a>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-preview">
+                    <iframe src="v17.html"></iframe>
+                </div>
+                <div class="version-info">
+                    <span class="version-number">v17</span>
+                    <h3 class="version-title">Purple-Blue Gradient</h3>
+                    <p class="version-description">Incorporating preferred colors - smooth blue and purple gradients with glassmorphism.</p>
+                    <a href="v17.html" class="view-button" target="_blank">View Full Page</a>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-preview">
+                    <iframe src="v18.html"></iframe>
+                </div>
+                <div class="version-info">
+                    <span class="version-number">v18</span>
+                    <h3 class="version-title">Full-screen Focus</h3>
+                    <p class="version-description">Large central timer taking up the screen. Maximizing the full-screen layout preference.</p>
+                    <a href="v18.html" class="view-button" target="_blank">View Full Page</a>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-preview">
+                    <iframe src="v19.html"></iframe>
+                </div>
+                <div class="version-info">
+                    <span class="version-number">v19</span>
+                    <h3 class="version-title">Smooth Blue</h3>
+                    <p class="version-description">iOS aesthetic combined with blue palette and smooth animations. Getting closer.</p>
+                    <a href="v19.html" class="view-button" target="_blank">View Full Page</a>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-preview">
+                    <iframe src="v20.html"></iframe>
+                </div>
+                <div class="version-info">
+                    <span class="version-number">v20</span>
+                    <h3 class="version-title">Playful iOS</h3>
+                    <p class="version-description">Merging clean iOS style with playful elements. Balancing fun and professional.</p>
+                    <a href="v20.html" class="view-button" target="_blank">View Full Page</a>
+                </div>
+            </div>
+        </div>
+
+        <h3 class="phase-header">Phase 4: Final Iterations (v21-v25)</h3>
+        <div class="gallery">
+            <div class="version-card">
+                <div class="version-preview">
+                    <iframe src="v21.html"></iframe>
+                </div>
+                <div class="version-info">
+                    <span class="version-number">v21</span>
+                    <h3 class="version-title">iOS + Tomato Icon</h3>
+                    <p class="version-description">Clean iOS design with subtle tomato character. Adding personality while keeping it elegant.</p>
+                    <a href="v21.html" class="view-button" target="_blank">View Full Page</a>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-preview">
+                    <iframe src="v22.html"></iframe>
+                </div>
+                <div class="version-info">
+                    <span class="version-number">v22</span>
+                    <h3 class="version-title">Refined Animations</h3>
+                    <p class="version-description">Perfecting transitions and micro-interactions. Smooth, bouncy, delightful animations.</p>
+                    <a href="v22.html" class="view-button" target="_blank">View Full Page</a>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-preview">
+                    <iframe src="v23.html"></iframe>
+                </div>
+                <div class="version-info">
+                    <span class="version-number">v23</span>
+                    <h3 class="version-title">Color Balance</h3>
+                    <p class="version-description">Fine-tuning the blue/purple gradient balance. Perfect color harmony achieved.</p>
+                    <a href="v23.html" class="view-button" target="_blank">View Full Page</a>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-preview">
+                    <iframe src="v24.html"></iframe>
+                </div>
+                <div class="version-info">
+                    <span class="version-number">v24</span>
+                    <h3 class="version-title">Polish Details</h3>
+                    <p class="version-description">Refining typography, spacing, shadows. Every detail perfected and polished.</p>
+                    <a href="v24.html" class="view-button" target="_blank">View Full Page</a>
+                </div>
+            </div>
+
+            <div class="version-card">
+                <div class="version-preview">
+                    <iframe src="v25.html"></iframe>
+                </div>
+                <div class="version-info">
+                    <span class="version-number">v25</span>
+                    <h3 class="version-title">FINAL - Perfect Blend</h3>
+                    <p class="version-description">The ultimate version. Playful + blue/purple + full-screen + iOS style. Everything comes together.</p>
+                    <a href="v25.html" class="view-button" target="_blank">View Full Page</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="final-version">
+            <h2>Final Version (v25)</h2>
+            <p><strong>Why v25 is the perfect choice:</strong></p>
+            <p style="margin: 15px 0;">After exploring 25 radically different design directions, v25 emerged as the ideal solution because it successfully combines all the best elements discovered throughout the journey:</p>
+            <ul style="margin-left: 25px; line-height: 1.8;">
+                <li><strong>Playful yet Professional:</strong> The bouncing tomato icon adds personality and makes studying feel less intimidating, while the clean iOS-inspired design keeps it polished and serious enough for academic work.</li>
+                <li><strong>Perfect Color Harmony:</strong> The blue-purple gradient (from v17-v23 refinements) is both calming for concentration and energizing enough to stay motivated. It's easier on the eyes than the harsh neons (v9) but more engaging than pure monochrome (v13).</li>
+                <li><strong>Full-Screen Focus:</strong> The large, centered timer dominates the screen (v18), making it impossible to miss. Unlike the sidebar approach (v10) or compact designs, this forces you to commit fully to the session.</li>
+                <li><strong>Smooth Interactions:</strong> Subtle animations (v22) make the interface feel responsive and alive, without the overwhelming chaos of v15. Every button press feels satisfying.</li>
+                <li><strong>Apple Aesthetic:</strong> Clean typography, generous spacing, and rounded corners create a familiar, trustworthy feel for students who use modern devices. It feels at home on any screen.</li>
+            </ul>
+            <p style="margin-top: 15px;">The wide exploration phase (v1-v15) taught me what doesn't work - brutalism is too harsh for long study sessions, retro is distracting, and pure minimalism can feel cold. The convergence phase (v16-v25) let me refine the winning combination into something that's both functional and delightful.</p>
+            <iframe src="v25.html" class="final-preview"></iframe>
+            <a href="v25.html" class="view-button" target="_blank" style="display: inline-block; margin-top: 20px;">Open v25 Full Screen</a>
+        </div>
+
+        <footer>
+            <p>Rapid Prototyping Exercise - Spring 2026</p>
+            <p>Created for Design, Build and Ship - University of Chicago</p>
+        </footer>
+    </div>
+</body>
+</html>
