@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>v14: Neumorphism</title>
+    <title>v14: Bug Zapper</title>
     <style>
         * {
             margin: 0;
@@ -12,141 +12,212 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: #e0e5ec;
+            font-family: 'Arial Black', Arial, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #4a5568;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Flying bugs (alive) */
+        .bug {
+            position: fixed;
+            font-size: 2.5rem;
+            transition: all 0.5s ease;
+            z-index: 1;
+        }
+
+        .bug.alive {
+            animation: fly 3s ease-in-out infinite;
+        }
+
+        .bug.dead {
+            animation: fall 1s ease-in forwards;
+            filter: grayscale(100%) brightness(0.5);
+            transform: rotate(180deg);
+        }
+
+        @keyframes fly {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(20px, -15px) rotate(10deg); }
+            50% { transform: translate(-15px, 10px) rotate(-10deg); }
+            75% { transform: translate(10px, 15px) rotate(5deg); }
+        }
+
+        @keyframes fall {
+            0% {
+                transform: rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(180deg);
+                opacity: 0.3;
+            }
+        }
+
+        /* Spray effect */
+        .spray {
+            position: fixed;
+            font-size: 4rem;
+            bottom: 50px;
+            right: 50px;
+            opacity: 0.6;
+            z-index: 0;
         }
 
         .container {
             text-align: center;
-            max-width: 600px;
-            padding: 70px 60px;
-            background: #e0e5ec;
-            border-radius: 50px;
-            box-shadow: 20px 20px 60px #bec3c9,
-                       -20px -20px 60px #ffffff;
+            max-width: 700px;
+            padding: 40px;
+            position: relative;
+            z-index: 2;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            border: 3px solid #e74c3c;
+            box-shadow: 0 0 50px rgba(231, 76, 60, 0.5);
         }
 
         h1 {
-            font-size: 2rem;
-            font-weight: 600;
-            margin-bottom: 50px;
-            color: #4a5568;
+            font-size: 2.8rem;
+            font-weight: 900;
+            margin-bottom: 20px;
+            color: #e74c3c;
+            text-shadow: 0 0 20px rgba(231, 76, 60, 0.8);
+            text-transform: uppercase;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #f39c12;
+            margin-bottom: 40px;
+            font-weight: 700;
         }
 
         .timer-display {
-            font-size: 7rem;
-            font-weight: 700;
-            color: #667eea;
-            margin-bottom: 30px;
-            background: #e0e5ec;
-            padding: 40px;
-            border-radius: 40px;
-            box-shadow: inset 12px 12px 24px #bec3c9,
-                        inset -12px -12px 24px #ffffff;
+            font-size: 8rem;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 20px;
+            text-shadow: 0 0 30px rgba(231, 76, 60, 0.8);
+            letter-spacing: -5px;
         }
 
         .timer-label {
-            font-size: 1.1rem;
-            color: #718096;
+            font-size: 1.4rem;
+            color: #f39c12;
             margin-bottom: 50px;
-            font-weight: 500;
+            font-weight: 700;
+        }
+
+        .bug-counter {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            color: #fff;
+            background: rgba(231, 76, 60, 0.3);
+            padding: 15px 30px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        .bug-counter span {
+            font-size: 2rem;
+            color: #e74c3c;
+            font-weight: 900;
         }
 
         .controls {
             display: flex;
-            gap: 30px;
+            gap: 20px;
             justify-content: center;
-            margin-bottom: 50px;
+            margin-bottom: 40px;
         }
 
         button {
-            background: #e0e5ec;
+            background: #e74c3c;
             border: none;
-            color: #667eea;
+            color: #fff;
             padding: 20px 50px;
-            font-size: 1rem;
+            font-size: 1.2rem;
             cursor: pointer;
-            border-radius: 25px;
+            border-radius: 50px;
+            font-weight: 900;
             transition: all 0.3s ease;
-            font-weight: 600;
-            box-shadow: 8px 8px 16px #bec3c9,
-                       -8px -8px 16px #ffffff;
+            box-shadow: 0 10px 30px rgba(231, 76, 60, 0.4);
+            text-transform: uppercase;
         }
 
         button:hover {
-            box-shadow: 12px 12px 24px #bec3c9,
-                       -12px -12px 24px #ffffff;
+            background: #c0392b;
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(231, 76, 60, 0.6);
         }
 
-        button:active {
-            box-shadow: inset 6px 6px 12px #bec3c9,
-                       inset -6px -6px 12px #ffffff;
+        button#resetBtn {
+            background: #f39c12;
+        }
+
+        button#resetBtn:hover {
+            background: #d68910;
         }
 
         .sessions {
-            font-size: 1rem;
-            color: #718096;
-            background: #e0e5ec;
-            padding: 20px 40px;
-            border-radius: 30px;
+            font-size: 1.2rem;
+            background: rgba(243, 156, 18, 0.2);
+            padding: 15px 40px;
+            border-radius: 20px;
             display: inline-block;
-            box-shadow: 8px 8px 16px #bec3c9,
-                       -8px -8px 16px #ffffff;
+            border: 2px solid #f39c12;
+            font-weight: 700;
         }
 
         .sessions span {
             font-size: 2.5rem;
-            font-weight: 700;
-            color: #667eea;
+            color: #f39c12;
             display: block;
             margin-top: 10px;
-        }
-
-        .progress-circle {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background: #e0e5ec;
-            box-shadow: inset 6px 6px 12px #bec3c9,
-                       inset -6px -6px 12px #ffffff;
-            margin: 0 auto 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            color: #667eea;
-            font-weight: 700;
+            font-weight: 900;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Focus Timer</h1>
+    <!-- Bug spray can -->
+    <div class="spray">🧴</div>
 
-        <div class="progress-circle">
-            <span id="progress">0%</span>
+    <!-- Bugs container -->
+    <div id="bugsContainer"></div>
+
+    <div class="container">
+        <h1>🪰 BUG ZAPPER 🪰</h1>
+        <div class="subtitle">Eliminate all pests!</div>
+
+        <div class="bug-counter">
+            Bugs alive: <span id="bugsAlive">20</span>
         </div>
 
         <div class="timer-display" id="timer">25:00</div>
-        <div class="timer-label" id="label">Work Session</div>
+        <div class="timer-label" id="label">Extermination in progress...</div>
 
         <div class="controls">
-            <button id="startBtn">Start</button>
-            <button id="resetBtn">Reset</button>
+            <button id="startBtn">SPRAY</button>
+            <button id="resetBtn">RESET</button>
         </div>
 
         <div class="sessions">
-            Sessions
+            Rooms cleared
             <span id="sessions">0</span>
         </div>
     </div>
 
     <script>
+        const TOTAL_BUGS = 20;
+        let bugs = [];
+        let bugsAlive = TOTAL_BUGS;
+
         let timeLeft = 25 * 60;
         let totalTime = 25 * 60;
         let isRunning = false;
@@ -159,25 +230,63 @@
         const startBtn = document.getElementById('startBtn');
         const resetBtn = document.getElementById('resetBtn');
         const sessionsDisplay = document.getElementById('sessions');
-        const progressDisplay = document.getElementById('progress');
+        const bugsAliveDisplay = document.getElementById('bugsAlive');
+        const bugsContainer = document.getElementById('bugsContainer');
+
+        // Create bugs
+        function createBugs() {
+            bugsContainer.innerHTML = '';
+            bugs = [];
+            bugsAlive = TOTAL_BUGS;
+
+            const bugEmojis = ['🦟', '🪰', '🪳', '🐜'];
+
+            for (let i = 0; i < TOTAL_BUGS; i++) {
+                const bug = document.createElement('div');
+                bug.className = 'bug alive';
+                bug.textContent = bugEmojis[i % bugEmojis.length];
+                bug.style.left = Math.random() * 80 + 10 + '%';
+                bug.style.top = Math.random() * 70 + 10 + '%';
+                bug.style.animationDelay = Math.random() * 3 + 's';
+                bug.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                bugsContainer.appendChild(bug);
+                bugs.push(bug);
+            }
+
+            bugsAliveDisplay.textContent = bugsAlive;
+        }
+
+        function killBugs() {
+            const progress = ((totalTime - timeLeft) / totalTime);
+            const bugsToKill = Math.floor(progress * TOTAL_BUGS);
+
+            for (let i = 0; i < bugsToKill; i++) {
+                if (bugs[i] && bugs[i].classList.contains('alive')) {
+                    bugs[i].classList.remove('alive');
+                    bugs[i].classList.add('dead');
+                }
+            }
+
+            bugsAlive = TOTAL_BUGS - bugsToKill;
+            bugsAliveDisplay.textContent = bugsAlive;
+        }
 
         function updateDisplay() {
             const minutes = Math.floor(timeLeft / 60);
             const seconds = timeLeft % 60;
             timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 
-            const progress = Math.round(((totalTime - timeLeft) / totalTime) * 100);
-            progressDisplay.textContent = progress + '%';
+            killBugs();
         }
 
         function startTimer() {
             if (isRunning) {
                 isRunning = false;
-                startBtn.textContent = 'Start';
+                startBtn.textContent = 'SPRAY';
                 clearInterval(timerInterval);
             } else {
                 isRunning = true;
-                startBtn.textContent = 'Pause';
+                startBtn.textContent = 'PAUSE';
                 timerInterval = setInterval(() => {
                     if (timeLeft > 0) {
                         timeLeft--;
@@ -192,14 +301,15 @@
                             isBreak = true;
                             timeLeft = 5 * 60;
                             totalTime = 5 * 60;
-                            labelDisplay.textContent = 'Break Time';
-                            startBtn.textContent = 'Start';
+                            labelDisplay.textContent = 'Safe zone - no bugs here!';
+                            startBtn.textContent = 'SPRAY';
                         } else {
                             isBreak = false;
                             timeLeft = 25 * 60;
                             totalTime = 25 * 60;
-                            labelDisplay.textContent = 'Work Session';
-                            startBtn.textContent = 'Start';
+                            labelDisplay.textContent = 'Extermination in progress...';
+                            startBtn.textContent = 'SPRAY';
+                            createBugs();
                         }
                         updateDisplay();
                     }
@@ -213,14 +323,16 @@
             isBreak = false;
             timeLeft = 25 * 60;
             totalTime = 25 * 60;
-            labelDisplay.textContent = 'Work Session';
-            startBtn.textContent = 'Start';
+            labelDisplay.textContent = 'Extermination in progress...';
+            startBtn.textContent = 'SPRAY';
+            createBugs();
             updateDisplay();
         }
 
         startBtn.addEventListener('click', startTimer);
         resetBtn.addEventListener('click', resetTimer);
 
+        createBugs();
         updateDisplay();
     </script>
 </body>

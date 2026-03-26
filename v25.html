@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>v25: FINAL - Pomodoro Flow</title>
+    <title>v25: FINAL - Deep Sea Aquarium</title>
     <style>
         * {
             margin: 0;
@@ -12,8 +12,8 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', sans-serif;
-            background: linear-gradient(135deg, #5f72bd 0%, #9b23ea 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+            background: linear-gradient(to bottom, #001a33 0%, #003366 50%, #004d7a 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -23,248 +23,235 @@
             overflow: hidden;
         }
 
-        /* Subtle ambient orbs */
-        body::before {
-            content: '';
+        /* Bubbles floating up */
+        .bubble {
             position: absolute;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(155, 35, 234, 0.15) 0%, transparent 70%);
+            bottom: -50px;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.3));
             border-radius: 50%;
-            top: -200px;
-            right: -150px;
-            animation: float1 25s ease-in-out infinite;
+            animation: float-up 8s infinite ease-in;
+            opacity: 0.6;
         }
 
-        body::after {
-            content: '';
-            position: absolute;
-            width: 700px;
-            height: 700px;
-            background: radial-gradient(circle, rgba(95, 114, 189, 0.15) 0%, transparent 70%);
-            border-radius: 50%;
-            bottom: -250px;
-            left: -200px;
-            animation: float2 30s ease-in-out infinite;
+        @keyframes float-up {
+            0% {
+                transform: translateY(0) translateX(0);
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(50px);
+                opacity: 0;
+            }
         }
 
-        @keyframes float1 {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(40px, 40px) scale(1.1); }
+        /* Water that rises from bottom */
+        .water-fill {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 0%;
+            background: linear-gradient(to top, rgba(0, 119, 190, 0.3) 0%, rgba(0, 180, 216, 0.2) 100%);
+            transition: height 1s ease;
+            pointer-events: none;
+            z-index: 0;
         }
 
-        @keyframes float2 {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(-40px, -40px) scale(1.1); }
+        /* Animated seaweed */
+        .seaweed {
+            position: fixed;
+            bottom: 0;
+            width: 40px;
+            background: linear-gradient(to top, #1a5f3f 0%, #2d8659 100%);
+            border-radius: 20px 20px 0 0;
+            animation: sway 3s ease-in-out infinite;
+            z-index: 1;
         }
+
+        .seaweed1 { left: 10%; height: 150px; animation-delay: 0s; }
+        .seaweed2 { left: 25%; height: 120px; animation-delay: 0.5s; }
+        .seaweed3 { right: 20%; height: 180px; animation-delay: 1s; }
+        .seaweed4 { right: 8%; height: 140px; animation-delay: 1.5s; }
+
+        @keyframes sway {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(8deg); }
+        }
+
+        /* Fish that appear when complete */
+        .fish {
+            position: fixed;
+            font-size: 3rem;
+            opacity: 0;
+            transition: opacity 1s ease;
+            z-index: 2;
+            animation: swim 15s linear infinite;
+        }
+
+        @keyframes swim {
+            0% { transform: translateX(-100px) scaleX(1); }
+            49% { transform: translateX(calc(100vw + 100px)) scaleX(1); }
+            50% { transform: translateX(calc(100vw + 100px)) scaleX(-1); }
+            100% { transform: translateX(-100px) scaleX(-1); }
+        }
+
+        .fish1 { top: 15%; animation-delay: 0s; animation-duration: 20s; }
+        .fish2 { top: 30%; animation-delay: 3s; animation-duration: 25s; }
+        .fish3 { top: 50%; animation-delay: 6s; animation-duration: 18s; }
+        .fish4 { top: 70%; animation-delay: 9s; animation-duration: 22s; }
 
         .container {
             text-align: center;
-            width: 100%;
-            max-width: 850px;
+            max-width: 800px;
+            padding: 40px;
             position: relative;
-            z-index: 1;
-            animation: fadeIn 0.8s ease;
-            padding: 20px;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(35px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Playful tomato icon */
-        .tomato-icon {
-            font-size: 5rem;
-            margin-bottom: 35px;
-            animation: gentle-bounce 4s ease-in-out infinite;
-            filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.3));
-            display: inline-block;
-        }
-
-        @keyframes gentle-bounce {
-            0%, 100% { transform: translateY(0) scale(1) rotate(0deg); }
-            50% { transform: translateY(-15px) scale(1.05) rotate(5deg); }
+            z-index: 3;
         }
 
         h1 {
-            font-size: 2.8rem;
+            font-size: 3rem;
             font-weight: 600;
-            margin-bottom: 65px;
-            color: #fff;
-            letter-spacing: 0.5px;
-            text-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+            margin-bottom: 60px;
+            color: #00d4ff;
+            text-shadow: 0 0 30px rgba(0, 212, 255, 0.8),
+                         0 4px 20px rgba(0, 0, 0, 0.5);
+            animation: glow 2s ease-in-out infinite;
         }
 
-        /* Massive central timer */
+        @keyframes glow {
+            0%, 100% { text-shadow: 0 0 30px rgba(0, 212, 255, 0.8), 0 4px 20px rgba(0, 0, 0, 0.5); }
+            50% { text-shadow: 0 0 50px rgba(0, 212, 255, 1), 0 4px 20px rgba(0, 0, 0, 0.5); }
+        }
+
         .timer-display {
-            font-size: 13rem;
+            font-size: 12rem;
             font-weight: 200;
-            color: #fff;
             margin-bottom: 40px;
-            letter-spacing: -10px;
-            text-shadow: 0 15px 45px rgba(0, 0, 0, 0.35);
-            line-height: 1;
+            text-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            letter-spacing: -8px;
+            color: #fff;
         }
 
         .timer-label {
             font-size: 1.6rem;
-            color: rgba(255, 255, 255, 0.95);
-            margin-bottom: 75px;
-            font-weight: 400;
-            letter-spacing: 1.2px;
+            margin-bottom: 70px;
+            color: #7dd3fc;
+            letter-spacing: 1px;
         }
 
-        /* iOS-style buttons */
         .controls {
             display: flex;
             gap: 25px;
             justify-content: center;
-            margin-bottom: 70px;
+            margin-bottom: 60px;
         }
 
         button {
-            background: rgba(255, 255, 255, 0.98);
+            background: rgba(0, 212, 255, 0.9);
             border: none;
-            color: #5f72bd;
-            padding: 22px 70px;
+            color: #001a33;
+            padding: 22px 65px;
             font-size: 1.15rem;
             cursor: pointer;
-            border-radius: 18px;
-            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-            font-weight: 600;
-            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.25);
-            letter-spacing: 0.4px;
+            border-radius: 50px;
+            font-weight: 700;
+            box-shadow: 0 10px 35px rgba(0, 212, 255, 0.4);
+            transition: all 0.3s ease;
         }
 
         button:hover {
-            background: #fff;
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 20px 55px rgba(0, 0, 0, 0.35);
-        }
-
-        button:active {
-            transform: translateY(-2px) scale(0.99);
-            transition: all 0.15s ease;
+            background: #00d4ff;
+            transform: translateY(-4px);
+            box-shadow: 0 15px 45px rgba(0, 212, 255, 0.6);
         }
 
         button#resetBtn {
-            background: rgba(255, 255, 255, 0.25);
+            background: rgba(255, 255, 255, 0.2);
             color: #fff;
+            border: 2px solid rgba(255, 255, 255, 0.5);
         }
 
         button#resetBtn:hover {
-            background: rgba(255, 255, 255, 0.35);
+            background: rgba(255, 255, 255, 0.3);
         }
 
-        /* Glassmorphism session counter */
         .sessions {
             font-size: 1.25rem;
-            color: rgba(255, 255, 255, 0.95);
-            background: rgba(255, 255, 255, 0.22);
-            backdrop-filter: blur(25px);
+            background: rgba(0, 212, 255, 0.15);
+            backdrop-filter: blur(20px);
             padding: 22px 55px;
-            border-radius: 35px;
+            border-radius: 40px;
             display: inline-block;
-            border: 1px solid rgba(255, 255, 255, 0.35);
-            transition: all 0.35s ease;
-            letter-spacing: 0.6px;
-            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.15);
-        }
-
-        .sessions:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 14px 45px rgba(0, 0, 0, 0.22);
+            border: 2px solid rgba(0, 212, 255, 0.4);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
         }
 
         .sessions span {
-            font-size: 3.2rem;
-            font-weight: 600;
-            color: #fff;
+            font-size: 3rem;
+            font-weight: 700;
             display: block;
-            margin-top: 14px;
+            margin-top: 10px;
+            color: #00d4ff;
         }
 
-        /* Progress ring around timer */
-        .progress-ring {
-            position: absolute;
-            width: 280px;
-            height: 280px;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -120%);
-            pointer-events: none;
-        }
-
-        .progress-ring svg {
-            transform: rotate(-90deg);
-        }
-
-        .progress-ring circle {
-            fill: none;
-            stroke-width: 3;
-        }
-
-        .progress-background {
-            stroke: rgba(255, 255, 255, 0.15);
-        }
-
-        .progress-fill {
-            stroke: rgba(255, 255, 255, 0.7);
-            stroke-dasharray: 0 880;
-            transition: stroke-dasharray 1s ease;
-            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
-        }
-
-        /* Responsive */
         @media (max-width: 768px) {
             .timer-display {
-                font-size: 8rem;
-                letter-spacing: -6px;
-            }
-
-            h1 {
-                font-size: 2.2rem;
-            }
-
-            button {
-                padding: 18px 50px;
-                font-size: 1rem;
-            }
-
-            .tomato-icon {
-                font-size: 3.5rem;
+                font-size: 7rem;
+                letter-spacing: -5px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="tomato-icon">🍅</div>
-        <h1>Pomodoro Flow</h1>
+    <div class="water-fill" id="waterFill"></div>
 
-        <div class="progress-ring" id="progressRing">
-            <svg width="280" height="280" viewBox="0 0 280 280">
-                <circle class="progress-background" cx="140" cy="140" r="140"></circle>
-                <circle class="progress-fill" cx="140" cy="140" r="140" id="progressCircle"></circle>
-            </svg>
-        </div>
+    <!-- Seaweed -->
+    <div class="seaweed seaweed1"></div>
+    <div class="seaweed seaweed2"></div>
+    <div class="seaweed seaweed3"></div>
+    <div class="seaweed seaweed4"></div>
+
+    <!-- Fish that appear when done -->
+    <div class="fish fish1" id="fish1">🐠</div>
+    <div class="fish fish2" id="fish2">🐟</div>
+    <div class="fish fish3" id="fish3">🐡</div>
+    <div class="fish fish4" id="fish4">🦈</div>
+
+    <div class="container">
+        <h1>Deep Sea Focus</h1>
 
         <div class="timer-display" id="timer">25:00</div>
-        <div class="timer-label" id="label">Focus Time</div>
+        <div class="timer-label" id="label">Fill your ocean of productivity</div>
 
         <div class="controls">
-            <button id="startBtn">Start</button>
-            <button id="resetBtn">Reset</button>
+            <button id="startBtn">Dive In</button>
+            <button id="resetBtn">Surface</button>
         </div>
 
         <div class="sessions">
-            Completed
+            Oceans filled
             <span id="sessions">0</span>
         </div>
     </div>
 
     <script>
+        // Generate bubbles
+        function createBubble() {
+            const bubble = document.createElement('div');
+            bubble.className = 'bubble';
+            const size = Math.random() * 30 + 10;
+            bubble.style.width = size + 'px';
+            bubble.style.height = size + 'px';
+            bubble.style.left = Math.random() * 100 + '%';
+            bubble.style.animationDuration = (Math.random() * 5 + 5) + 's';
+            bubble.style.animationDelay = Math.random() * 3 + 's';
+            document.body.appendChild(bubble);
+
+            setTimeout(() => bubble.remove(), 10000);
+        }
+
+        setInterval(createBubble, 800);
+
         let timeLeft = 25 * 60;
         let totalTime = 25 * 60;
         let isRunning = false;
@@ -277,25 +264,34 @@
         const startBtn = document.getElementById('startBtn');
         const resetBtn = document.getElementById('resetBtn');
         const sessionsDisplay = document.getElementById('sessions');
-        const progressCircle = document.getElementById('progressCircle');
-
-        const circumference = 2 * Math.PI * 140;
+        const waterFill = document.getElementById('waterFill');
+        const fish1 = document.getElementById('fish1');
+        const fish2 = document.getElementById('fish2');
+        const fish3 = document.getElementById('fish3');
+        const fish4 = document.getElementById('fish4');
 
         function updateDisplay() {
             const minutes = Math.floor(timeLeft / 60);
             const seconds = timeLeft % 60;
             timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 
-            // Update progress ring
+            // Water rises from bottom
             const progress = ((totalTime - timeLeft) / totalTime);
-            const dashArray = (progress * circumference).toFixed(2);
-            progressCircle.style.strokeDasharray = `${dashArray} ${circumference}`;
+            waterFill.style.height = (progress * 100) + '%';
+
+            // Show fish when complete
+            if (progress >= 1) {
+                fish1.style.opacity = '1';
+                fish2.style.opacity = '1';
+                fish3.style.opacity = '1';
+                fish4.style.opacity = '1';
+            }
         }
 
         function startTimer() {
             if (isRunning) {
                 isRunning = false;
-                startBtn.textContent = 'Start';
+                startBtn.textContent = 'Dive In';
                 clearInterval(timerInterval);
             } else {
                 isRunning = true;
@@ -314,14 +310,19 @@
                             isBreak = true;
                             timeLeft = 5 * 60;
                             totalTime = 5 * 60;
-                            labelDisplay.textContent = 'Break Time';
-                            startBtn.textContent = 'Start';
+                            labelDisplay.textContent = 'Surface for air';
+                            startBtn.textContent = 'Dive In';
                         } else {
                             isBreak = false;
                             timeLeft = 25 * 60;
                             totalTime = 25 * 60;
-                            labelDisplay.textContent = 'Focus Time';
-                            startBtn.textContent = 'Start';
+                            labelDisplay.textContent = 'Fill your ocean of productivity';
+                            startBtn.textContent = 'Dive In';
+                            // Hide fish for next session
+                            fish1.style.opacity = '0';
+                            fish2.style.opacity = '0';
+                            fish3.style.opacity = '0';
+                            fish4.style.opacity = '0';
                         }
                         updateDisplay();
                     }
@@ -335,8 +336,12 @@
             isBreak = false;
             timeLeft = 25 * 60;
             totalTime = 25 * 60;
-            labelDisplay.textContent = 'Focus Time';
-            startBtn.textContent = 'Start';
+            labelDisplay.textContent = 'Fill your ocean of productivity';
+            startBtn.textContent = 'Dive In';
+            fish1.style.opacity = '0';
+            fish2.style.opacity = '0';
+            fish3.style.opacity = '0';
+            fish4.style.opacity = '0';
             updateDisplay();
         }
 

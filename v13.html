@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>v13: Monochrome</title>
+    <title>v13: Crossy Road</title>
     <style>
         * {
             margin: 0;
@@ -12,132 +12,221 @@
         }
 
         body {
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            background: #fff;
+            font-family: 'Comic Sans MS', 'Arial Rounded MT Bold', sans-serif;
+            background: linear-gradient(to bottom, #87CEEB 0%, #98D8E8 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #000;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Road with lanes */
+        .road {
+            position: fixed;
+            left: 0;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 300px;
+            background: repeating-linear-gradient(
+                0deg,
+                #4a4a4a 0px,
+                #4a4a4a 45px,
+                #ffeb3b 45px,
+                #ffeb3b 50px,
+                #4a4a4a 50px,
+                #4a4a4a 95px,
+                #ffeb3b 95px,
+                #ffeb3b 100px
+            );
+            z-index: 0;
+        }
+
+        /* Grass strips */
+        .grass-top, .grass-bottom {
+            position: fixed;
+            left: 0;
+            right: 0;
+            height: 150px;
+            background: linear-gradient(135deg, #4CAF50 25%, #66BB6A 25%, #66BB6A 50%, #4CAF50 50%, #4CAF50 75%, #66BB6A 75%);
+            background-size: 40px 40px;
+            z-index: 0;
+        }
+
+        .grass-top {
+            top: 0;
+        }
+
+        .grass-bottom {
+            bottom: 0;
+        }
+
+        /* Chicken that moves across */
+        .chicken {
+            position: fixed;
+            font-size: 4rem;
+            bottom: 20%;
+            left: 10%;
+            transition: left 1s ease, transform 0.3s ease;
+            z-index: 2;
+            filter: drop-shadow(3px 3px 0 rgba(0,0,0,0.3));
+        }
+
+        /* Cars moving across road */
+        .car {
+            position: fixed;
+            font-size: 3rem;
+            animation: drive 8s linear infinite;
+            z-index: 1;
+            filter: drop-shadow(2px 2px 0 rgba(0,0,0,0.2));
+        }
+
+        .car1 { top: 38%; animation-duration: 6s; animation-delay: 0s; }
+        .car2 { top: 48%; animation-duration: 9s; animation-delay: 2s; }
+        .car3 { top: 58%; animation-duration: 7s; animation-delay: 4s; }
+
+        @keyframes drive {
+            0% { left: -100px; }
+            100% { left: calc(100% + 100px); }
         }
 
         .container {
             text-align: center;
             max-width: 700px;
-            padding: 80px 60px;
-            border: 8px solid #000;
+            padding: 40px;
+            position: relative;
+            z-index: 3;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 30px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.3);
         }
 
         h1 {
-            font-size: 1.2rem;
-            font-weight: 400;
-            text-transform: uppercase;
-            letter-spacing: 8px;
-            margin-bottom: 60px;
+            font-size: 2.8rem;
+            font-weight: 900;
+            margin-bottom: 30px;
+            color: #FF6B6B;
+            text-shadow: 3px 3px 0 #FFE66D,
+                         6px 6px 0 #4ECDC4;
         }
 
         .timer-display {
-            font-size: 10rem;
-            font-weight: 700;
-            color: #000;
-            margin-bottom: 40px;
+            font-size: 8rem;
+            font-weight: 900;
+            color: #4ECDC4;
+            margin-bottom: 20px;
             line-height: 1;
             letter-spacing: -5px;
+            text-shadow: 4px 4px 0 #FF6B6B;
         }
 
         .timer-label {
-            font-size: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 5px;
-            margin-bottom: 60px;
-            font-weight: 500;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 40px;
-            background: #fff;
-            border: 3px solid #000;
-            margin-bottom: 50px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: #000;
-            width: 0%;
-            transition: width 1s linear;
+            font-size: 1.5rem;
+            margin-bottom: 40px;
+            color: #555;
+            font-weight: 700;
         }
 
         .controls {
             display: flex;
-            gap: 0;
+            gap: 20px;
             justify-content: center;
-            margin-bottom: 60px;
+            margin-bottom: 40px;
         }
 
         button {
-            background: #fff;
-            border: 3px solid #000;
-            color: #000;
-            padding: 20px 60px;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 3px;
+            background: #FF6B6B;
+            border: none;
+            color: #fff;
+            padding: 20px 50px;
+            font-size: 1.3rem;
             cursor: pointer;
-            transition: all 0.2s ease;
-            font-weight: 700;
-        }
-
-        button:first-child {
-            border-right: none;
+            border-radius: 50px;
+            font-weight: 900;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 0 #D64545,
+                        0 10px 20px rgba(0,0,0,0.3);
+            font-family: inherit;
         }
 
         button:hover {
-            background: #000;
-            color: #fff;
+            transform: translateY(-3px);
+            box-shadow: 0 11px 0 #D64545,
+                        0 13px 25px rgba(0,0,0,0.4);
         }
 
         button:active {
-            transform: scale(0.98);
+            transform: translateY(5px);
+            box-shadow: 0 3px 0 #D64545,
+                        0 5px 10px rgba(0,0,0,0.3);
+        }
+
+        button#resetBtn {
+            background: #4ECDC4;
+            box-shadow: 0 8px 0 #3AAFA9,
+                        0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        button#resetBtn:hover {
+            box-shadow: 0 11px 0 #3AAFA9,
+                        0 13px 25px rgba(0,0,0,0.4);
+        }
+
+        button#resetBtn:active {
+            box-shadow: 0 3px 0 #3AAFA9,
+                        0 5px 10px rgba(0,0,0,0.3);
         }
 
         .sessions {
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            padding: 20px 40px;
-            border: 3px solid #000;
+            font-size: 1.3rem;
+            background: #FFE66D;
+            color: #333;
+            padding: 15px 40px;
+            border-radius: 20px;
             display: inline-block;
+            font-weight: 900;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
 
         .sessions span {
             font-size: 3rem;
-            font-weight: 900;
+            color: #FF6B6B;
             display: block;
-            margin-top: 15px;
+            margin-top: 5px;
+            text-shadow: 2px 2px 0 #fff;
         }
     </style>
 </head>
 <body>
+    <!-- Background elements -->
+    <div class="grass-top"></div>
+    <div class="road"></div>
+    <div class="grass-bottom"></div>
+
+    <!-- Chicken crossing -->
+    <div class="chicken" id="chicken">🐔</div>
+
+    <!-- Cars driving -->
+    <div class="car car1">🚗</div>
+    <div class="car car2">🚙</div>
+    <div class="car car3">🚕</div>
+
     <div class="container">
-        <h1>Pomodoro</h1>
+        <h1>CROSS THE ROAD!</h1>
 
         <div class="timer-display" id="timer">25:00</div>
-        <div class="timer-label" id="label">Work</div>
-
-        <div class="progress-bar">
-            <div class="progress-fill" id="progress"></div>
-        </div>
+        <div class="timer-label" id="label">Hop to the finish line!</div>
 
         <div class="controls">
-            <button id="startBtn">Start</button>
-            <button id="resetBtn">Reset</button>
+            <button id="startBtn">HOP</button>
+            <button id="resetBtn">RESTART</button>
         </div>
 
         <div class="sessions">
-            Sessions
+            Roads crossed
             <span id="sessions">0</span>
         </div>
     </div>
@@ -155,25 +244,31 @@
         const startBtn = document.getElementById('startBtn');
         const resetBtn = document.getElementById('resetBtn');
         const sessionsDisplay = document.getElementById('sessions');
-        const progressFill = document.getElementById('progress');
+        const chicken = document.getElementById('chicken');
 
         function updateDisplay() {
             const minutes = Math.floor(timeLeft / 60);
             const seconds = timeLeft % 60;
             timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 
-            const progress = ((totalTime - timeLeft) / totalTime) * 100;
-            progressFill.style.width = progress + '%';
+            // Move chicken across screen as timer progresses
+            const progress = ((totalTime - timeLeft) / totalTime);
+            chicken.style.left = (10 + progress * 80) + '%';
+
+            // Make chicken hop slightly when moving
+            if (progress > 0 && progress < 1) {
+                chicken.style.transform = 'translateY(' + (Math.sin(progress * 50) * 5) + 'px)';
+            }
         }
 
         function startTimer() {
             if (isRunning) {
                 isRunning = false;
-                startBtn.textContent = 'Start';
+                startBtn.textContent = 'HOP';
                 clearInterval(timerInterval);
             } else {
                 isRunning = true;
-                startBtn.textContent = 'Pause';
+                startBtn.textContent = 'PAUSE';
                 timerInterval = setInterval(() => {
                     if (timeLeft > 0) {
                         timeLeft--;
@@ -188,14 +283,14 @@
                             isBreak = true;
                             timeLeft = 5 * 60;
                             totalTime = 5 * 60;
-                            labelDisplay.textContent = 'Break';
-                            startBtn.textContent = 'Start';
+                            labelDisplay.textContent = 'Safe zone! Take a break!';
+                            startBtn.textContent = 'HOP';
                         } else {
                             isBreak = false;
                             timeLeft = 25 * 60;
                             totalTime = 25 * 60;
-                            labelDisplay.textContent = 'Work';
-                            startBtn.textContent = 'Start';
+                            labelDisplay.textContent = 'Hop to the finish line!';
+                            startBtn.textContent = 'HOP';
                         }
                         updateDisplay();
                     }
@@ -209,8 +304,8 @@
             isBreak = false;
             timeLeft = 25 * 60;
             totalTime = 25 * 60;
-            labelDisplay.textContent = 'Work';
-            startBtn.textContent = 'Start';
+            labelDisplay.textContent = 'Hop to the finish line!';
+            startBtn.textContent = 'HOP';
             updateDisplay();
         }
 

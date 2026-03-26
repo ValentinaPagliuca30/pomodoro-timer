@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>v18: Pizza Progress</title>
+    <title>v18: Pizzeria Italiana</title>
     <style>
         * {
             margin: 0;
@@ -12,103 +12,203 @@
         }
 
         body {
-            font-family: 'Comic Sans MS', 'Chalkboard SE', cursive;
-            background: linear-gradient(135deg, #FF6B6B 0%, #FFE66D 100%);
+            font-family: 'Georgia', 'Palatino', serif;
+            background: linear-gradient(135deg, #d4af37 0%, #f4e4c1 50%, #d4af37 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #2d3436;
+            color: #2d1810;
+            position: relative;
+        }
+
+        /* Italian flags decoration */
+        .flag {
+            position: absolute;
+            width: 60px;
+            height: 40px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+        }
+
+        .flag::before,
+        .flag::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 100%;
+        }
+
+        .flag::before {
+            left: 0;
+            background: #009246;
+        }
+
+        .flag {
+            background: #fff;
+        }
+
+        .flag::after {
+            right: 0;
+            background: #ce2b37;
+        }
+
+        .flag1 { top: 10%; left: 8%; transform: rotate(-5deg); }
+        .flag2 { top: 15%; right: 10%; transform: rotate(8deg); }
+        .flag3 { bottom: 12%; left: 12%; transform: rotate(5deg); }
+        .flag4 { bottom: 18%; right: 8%; transform: rotate(-8deg); }
+
+        /* Checkered tablecloth pattern */
+        .tablecloth {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            opacity: 0.15;
+            background:
+                repeating-linear-gradient(45deg, #ce2b37 0px, #ce2b37 20px, transparent 20px, transparent 40px),
+                repeating-linear-gradient(-45deg, #ce2b37 0px, #ce2b37 20px, transparent 20px, transparent 40px);
+            pointer-events: none;
         }
 
         .container {
             text-align: center;
             max-width: 700px;
             padding: 40px;
+            position: relative;
+            z-index: 1;
         }
 
         h1 {
-            font-size: 3rem;
+            font-size: 3.5rem;
             font-weight: 700;
-            margin-bottom: 50px;
-            color: #c0392b;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 15px;
+            color: #ce2b37;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            font-style: italic;
         }
 
-        .pizza-container {
-            width: 300px;
-            height: 300px;
-            margin: 0 auto 40px;
-            position: relative;
+        .subtitle {
+            font-size: 1.3rem;
+            color: #009246;
+            margin-bottom: 40px;
+            font-style: italic;
         }
 
-        .pizza {
-            width: 100%;
-            height: 100%;
+        /* Wooden plate */
+        .plate {
+            width: 400px;
+            height: 400px;
+            margin: 0 auto 30px;
+            background: radial-gradient(circle, #8d6e63 0%, #6d4c41 100%);
             border-radius: 50%;
-            background: #f39c12;
             position: relative;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.4),
+                        inset 0 0 30px rgba(0,0,0,0.3);
         }
 
-        .pizza::before {
+        .plate::before {
             content: '';
             position: absolute;
-            width: 90%;
-            height: 90%;
-            top: 5%;
-            left: 5%;
+            inset: 15px;
             border-radius: 50%;
-            background: radial-gradient(circle, #e74c3c 0%, #c0392b 100%);
+            border: 3px solid #a1887f;
         }
 
-        .pizza-slice {
+        /* Pizza on plate */
+        .pizza {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 320px;
+            height: 320px;
+            border-radius: 50%;
+            background: #f4c542;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+
+        /* Pizza sauce */
+        .sauce {
+            position: absolute;
+            inset: 12px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #d32f2f 0%, #b71c1c 100%);
+        }
+
+        /* Cheese with realistic texture */
+        .cheese {
+            position: absolute;
+            inset: 18px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 40% 40%, #fff8dc 0%, #f4e4a6 100%);
+            overflow: hidden;
+        }
+
+        /* Pepperoni */
+        .pepperoni {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: radial-gradient(circle at 30% 30%, #c62828 40%, #8b0000 100%);
+            border-radius: 50%;
+            box-shadow: inset -2px -2px 5px rgba(0,0,0,0.4);
+        }
+
+        .p1 { top: 25%; left: 30%; }
+        .p2 { top: 30%; right: 25%; }
+        .p3 { bottom: 35%; left: 25%; }
+        .p4 { bottom: 25%; right: 30%; }
+        .p5 { top: 50%; left: 50%; transform: translate(-50%, -50%); }
+
+        /* Basil leaves */
+        .basil {
+            position: absolute;
+            width: 25px;
+            height: 35px;
+            background: #2e7d32;
+            border-radius: 50% 0;
+            transform: rotate(45deg);
+        }
+
+        .b1 { top: 40%; left: 45%; }
+        .b2 { bottom: 45%; right: 40%; }
+
+        /* Slice missing overlay */
+        .slice-missing {
             position: absolute;
             width: 50%;
             height: 50%;
             top: 50%;
             left: 50%;
             transform-origin: 0% 0%;
-            background: #27ae60;
+            background: transparent;
             clip-path: polygon(0 0, 100% 0, 0 100%);
-            opacity: 0;
             transition: opacity 0.5s ease;
         }
 
-        .pizza-slice.eaten {
-            opacity: 1;
-            background: #ecf0f1;
-        }
-
-        .toppings {
+        .slice-gone {
             position: absolute;
-            width: 100%;
-            height: 100%;
             top: 0;
             left: 0;
-        }
-
-        .topping {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background: #e67e22;
-            border-radius: 50%;
+            right: 0;
+            bottom: 0;
+            background: transparent;
         }
 
         .timer-display {
-            font-size: 8rem;
-            font-weight: 900;
-            margin-bottom: 30px;
-            color: #c0392b;
-            text-shadow: 3px 3px 6px rgba(0,0,0,0.2);
+            font-size: 7rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: #ce2b37;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.2);
         }
 
         .timer-label {
-            font-size: 1.5rem;
-            margin-bottom: 60px;
-            color: #2d3436;
-            font-weight: 700;
+            font-size: 1.4rem;
+            margin-bottom: 50px;
+            color: #5d4037;
+            font-style: italic;
         }
 
         .controls {
@@ -119,92 +219,100 @@
         }
 
         button {
-            background: #e74c3c;
+            background: #ce2b37;
             border: none;
             color: #fff;
             padding: 20px 55px;
             font-size: 1.2rem;
             cursor: pointer;
-            border-radius: 50px;
+            border-radius: 8px;
             font-weight: 700;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            box-shadow: 0 8px 25px rgba(206, 43, 55, 0.4);
             transition: all 0.3s ease;
-            font-family: inherit;
+            font-family: Georgia, serif;
+            text-transform: uppercase;
         }
 
         button:hover {
-            background: #c0392b;
+            background: #b71c1c;
             transform: translateY(-3px);
-            box-shadow: 0 12px 35px rgba(0,0,0,0.3);
+            box-shadow: 0 12px 35px rgba(206, 43, 55, 0.6);
         }
 
         button#resetBtn {
-            background: #f39c12;
+            background: #009246;
         }
 
         button#resetBtn:hover {
-            background: #e67e22;
+            background: #00693e;
         }
 
         .sessions {
             font-size: 1.3rem;
-            background: rgba(255,255,255,0.7);
+            background: rgba(255, 255, 255, 0.8);
             padding: 20px 50px;
-            border-radius: 40px;
+            border-radius: 15px;
             display: inline-block;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
             font-weight: 700;
-            color: #2d3436;
+            color: #2d1810;
+            border: 3px solid #ce2b37;
         }
 
         .sessions span {
             font-size: 3rem;
-            color: #e74c3c;
+            color: #ce2b37;
             display: block;
             margin-top: 10px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Pizza Power Study!</h1>
+    <div class="tablecloth"></div>
 
-        <div class="pizza-container">
+    <!-- Italian flags -->
+    <div class="flag flag1"></div>
+    <div class="flag flag2"></div>
+    <div class="flag flag3"></div>
+    <div class="flag flag4"></div>
+
+    <div class="container">
+        <h1>Pizzeria Pomodoro</h1>
+        <div class="subtitle">Mangia la pizza, studia bene! 🇮🇹</div>
+
+        <div class="plate">
             <div class="pizza">
-                <div class="toppings" id="toppings"></div>
-                <svg width="300" height="300" style="position: absolute; top: 0; left: 0;" id="pizzaSlices">
+                <div class="sauce"></div>
+                <div class="cheese">
+                    <div class="pepperoni p1"></div>
+                    <div class="pepperoni p2"></div>
+                    <div class="pepperoni p3"></div>
+                    <div class="pepperoni p4"></div>
+                    <div class="pepperoni p5"></div>
+                    <div class="basil b1"></div>
+                    <div class="basil b2"></div>
+                </div>
+                <svg class="slice-gone" id="slicesSvg" viewBox="0 0 320 320" style="position: absolute; top: 0; left: 0;">
                     <!-- Slices will be drawn here -->
                 </svg>
             </div>
         </div>
 
         <div class="timer-display" id="timer">25:00</div>
-        <div class="timer-label" id="label">Eat the pizza slice by slice!</div>
+        <div class="timer-label" id="label">Buon appetito! Mangia una fetta alla volta</div>
 
         <div class="controls">
-            <button id="startBtn">Start</button>
-            <button id="resetBtn">Reset</button>
+            <button id="startBtn">Inizia!</button>
+            <button id="resetBtn">Ricomincia</button>
         </div>
 
         <div class="sessions">
-            Pizzas eaten
+            Pizze mangiate
             <span id="sessions">0</span>
         </div>
     </div>
 
     <script>
-        // Generate pizza toppings
-        const toppingsContainer = document.getElementById('toppings');
-        for (let i = 0; i < 15; i++) {
-            const topping = document.createElement('div');
-            topping.className = 'topping';
-            const angle = (Math.random() * 360) * Math.PI / 180;
-            const distance = 50 + Math.random() * 60;
-            topping.style.left = (150 + Math.cos(angle) * distance) + 'px';
-            topping.style.top = (150 + Math.sin(angle) * distance) + 'px';
-            toppingsContainer.appendChild(topping);
-        }
-
         let timeLeft = 25 * 60;
         let totalTime = 25 * 60;
         let isRunning = false;
@@ -217,7 +325,7 @@
         const startBtn = document.getElementById('startBtn');
         const resetBtn = document.getElementById('resetBtn');
         const sessionsDisplay = document.getElementById('sessions');
-        const pizzaSlices = document.getElementById('pizzaSlices');
+        const slicesSvg = document.getElementById('slicesSvg');
 
         function updateDisplay() {
             const minutes = Math.floor(timeLeft / 60);
@@ -229,34 +337,34 @@
             const slicesEaten = Math.floor(progress * 8);
 
             // Clear previous slices
-            pizzaSlices.innerHTML = '';
+            slicesSvg.innerHTML = '';
 
-            // Draw eaten slices
+            // Draw eaten slices (brown plate showing through)
             for (let i = 0; i < slicesEaten; i++) {
                 const angle = (360 / 8) * i;
-                const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
                 const startAngle = (angle - 90) * Math.PI / 180;
                 const endAngle = (angle + (360/8) - 90) * Math.PI / 180;
-                const x1 = 150 + 140 * Math.cos(startAngle);
-                const y1 = 150 + 140 * Math.sin(startAngle);
-                const x2 = 150 + 140 * Math.cos(endAngle);
-                const y2 = 150 + 140 * Math.sin(endAngle);
+                const x1 = 160 + 160 * Math.cos(startAngle);
+                const y1 = 160 + 160 * Math.sin(startAngle);
+                const x2 = 160 + 160 * Math.cos(endAngle);
+                const y2 = 160 + 160 * Math.sin(endAngle);
 
-                path.setAttribute('d', `M 150 150 L ${x1} ${y1} A 140 140 0 0 1 ${x2} ${y2} Z`);
-                path.setAttribute('fill', '#ecf0f1');
-                path.setAttribute('opacity', '0.8');
-                pizzaSlices.appendChild(path);
+                const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                path.setAttribute('d', `M 160 160 L ${x1} ${y1} A 160 160 0 0 1 ${x2} ${y2} Z`);
+                path.setAttribute('fill', '#8d6e63');
+                path.setAttribute('opacity', '0.9');
+                slicesSvg.appendChild(path);
             }
         }
 
         function startTimer() {
             if (isRunning) {
                 isRunning = false;
-                startBtn.textContent = 'Start';
+                startBtn.textContent = 'Inizia!';
                 clearInterval(timerInterval);
             } else {
                 isRunning = true;
-                startBtn.textContent = 'Pause';
+                startBtn.textContent = 'Pausa';
                 timerInterval = setInterval(() => {
                     if (timeLeft > 0) {
                         timeLeft--;
@@ -271,14 +379,14 @@
                             isBreak = true;
                             timeLeft = 5 * 60;
                             totalTime = 5 * 60;
-                            labelDisplay.textContent = 'Snack break!';
-                            startBtn.textContent = 'Start';
+                            labelDisplay.textContent = 'Pausa caffè!';
+                            startBtn.textContent = 'Inizia!';
                         } else {
                             isBreak = false;
                             timeLeft = 25 * 60;
                             totalTime = 25 * 60;
-                            labelDisplay.textContent = 'Eat the pizza slice by slice!';
-                            startBtn.textContent = 'Start';
+                            labelDisplay.textContent = 'Buon appetito! Mangia una fetta alla volta';
+                            startBtn.textContent = 'Inizia!';
                         }
                         updateDisplay();
                     }
@@ -292,8 +400,8 @@
             isBreak = false;
             timeLeft = 25 * 60;
             totalTime = 25 * 60;
-            labelDisplay.textContent = 'Eat the pizza slice by slice!';
-            startBtn.textContent = 'Start';
+            labelDisplay.textContent = 'Buon appetito! Mangia una fetta alla volta';
+            startBtn.textContent = 'Inizia!';
             updateDisplay();
         }
 

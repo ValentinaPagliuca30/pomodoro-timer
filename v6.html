@@ -145,9 +145,38 @@
             transform: perspective(500px) rotateX(60deg);
             transform-origin: bottom;
         }
+
+        /* Retro game characters floating across screen */
+        .game-character {
+            position: absolute;
+            font-size: 3rem;
+            filter: contrast(1.2) saturate(1.5);
+            animation: float-across 15s linear infinite;
+            z-index: 0;
+        }
+
+        @keyframes float-across {
+            0% { transform: translateX(-100px); }
+            100% { transform: translateX(calc(100vw + 100px)); }
+        }
+
+        .char1 { top: 15%; animation-duration: 12s; animation-delay: 0s; }
+        .char2 { top: 25%; animation-duration: 18s; animation-delay: 3s; }
+        .char3 { top: 35%; animation-duration: 14s; animation-delay: 6s; }
+        .char4 { top: 50%; animation-duration: 16s; animation-delay: 2s; }
+        .char5 { top: 65%; animation-duration: 20s; animation-delay: 8s; }
+        .char6 { top: 75%; animation-duration: 13s; animation-delay: 5s; }
     </style>
 </head>
 <body>
+    <!-- Retro game characters floating across -->
+    <div class="game-character char1">👾</div>
+    <div class="game-character char2">👻</div>
+    <div class="game-character char3">🤖</div>
+    <div class="game-character char4">👾</div>
+    <div class="game-character char5">🎮</div>
+    <div class="game-character char6">🕹️</div>
+
     <div class="grid"></div>
     <div class="container">
         <h1>STUDY TIME</h1>
