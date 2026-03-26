@@ -13,55 +13,127 @@
 
         body {
             font-family: 'Palatino', 'Book Antiqua', serif;
-            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             color: #ecf0f1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Animated stars background */
+        .stars {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite ease-in-out;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
         }
 
         .container {
             text-align: center;
             max-width: 700px;
             padding: 40px;
+            position: relative;
+            z-index: 1;
         }
 
         h1 {
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             font-weight: 400;
             margin-bottom: 50px;
-            color: #d4af37;
+            color: #ffd700;
             font-style: italic;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5),
+                         0 4px 10px rgba(0, 0, 0, 0.3);
         }
 
         .hourglass-container {
-            width: 150px;
-            height: 300px;
+            width: 200px;
+            height: 350px;
             margin: 0 auto 40px;
             position: relative;
+            filter: drop-shadow(0 10px 40px rgba(212, 175, 55, 0.3));
         }
 
-        .hourglass {
-            width: 100%;
-            height: 100%;
-            position: relative;
-            border: 4px solid #d4af37;
-            border-radius: 10px 10px 10px 10px;
-            background: rgba(52, 73, 94, 0.5);
-            overflow: hidden;
-        }
-
-        .hourglass::before {
-            content: '';
+        /* Wooden frame */
+        .frame-top, .frame-bottom {
             position: absolute;
-            top: 48%;
-            left: 0;
-            right: 0;
-            height: 4%;
-            background: #34495e;
-            clip-path: polygon(0 0, 100% 0, 80% 100%, 20% 100%);
+            width: 100%;
+            height: 30px;
+            background: linear-gradient(135deg, #8B4513 0%, #A0522D 50%, #8B4513 100%);
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3),
+                        inset 0 2px 0 rgba(255,255,255,0.2),
+                        inset 0 -2px 0 rgba(0,0,0,0.3);
+        }
+
+        .frame-top { top: 0; }
+        .frame-bottom { bottom: 0; }
+
+        /* Glass bulbs */
+        .hourglass {
+            position: absolute;
+            top: 30px;
+            left: 25px;
+            width: 150px;
+            height: 290px;
+            background: rgba(255, 255, 255, 0.05);
+            clip-path: polygon(
+                20% 0%, 80% 0%,
+                80% 45%, 50% 50%,
+                20% 45%, 20% 0%,
+                20% 45%, 50% 50%,
+                80% 45%, 80% 100%,
+                20% 100%, 20% 45%
+            );
+        }
+
+        /* Glass shine effect */
+        .glass-shine {
+            position: absolute;
+            top: 30px;
+            left: 25px;
+            width: 150px;
+            height: 290px;
+            background: linear-gradient(90deg,
+                transparent 0%,
+                rgba(255,255,255,0.1) 30%,
+                rgba(255,255,255,0.2) 50%,
+                rgba(255,255,255,0.1) 70%,
+                transparent 100%);
+            clip-path: polygon(
+                20% 0%, 80% 0%,
+                80% 45%, 50% 50%,
+                20% 45%
+            );
+            pointer-events: none;
+        }
+
+        /* Sand containers */
+        .sand-container {
+            position: absolute;
+            top: 30px;
+            left: 25px;
+            width: 150px;
+            height: 290px;
+            overflow: hidden;
         }
 
         .sand-top {
@@ -69,9 +141,9 @@
             top: 0;
             left: 0;
             right: 0;
-            background: linear-gradient(to bottom, #f39c12, #e67e22);
+            background: linear-gradient(to bottom, #ffd700, #f39c12, #e67e22);
             transition: height 1s linear;
-            border-radius: 8px 8px 0 0;
+            clip-path: polygon(20% 0%, 80% 0%, 80% 100%, 20% 100%);
         }
 
         .sand-bottom {
@@ -80,24 +152,50 @@
             left: 0;
             right: 0;
             height: 0%;
-            background: linear-gradient(to top, #f39c12, #e67e22);
+            background: linear-gradient(to bottom, #e67e22, #f39c12, #ffd700);
             transition: height 1s linear;
-            border-radius: 0 0 8px 8px;
+            clip-path: polygon(20% 0%, 80% 0%, 80% 100%, 20% 100%);
+        }
+
+        /* Sand falling particles */
+        .sand-stream {
+            position: absolute;
+            top: 130px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 30px;
+            background: linear-gradient(to bottom, rgba(255, 215, 0, 0.8), transparent);
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .sand-stream.active {
+            opacity: 1;
+            animation: sandFall 2s linear infinite;
+        }
+
+        @keyframes sandFall {
+            0% { height: 0px; opacity: 0.8; }
+            100% { height: 30px; opacity: 0; }
         }
 
         .timer-display {
-            font-size: 7.5rem;
-            font-weight: 300;
-            margin-bottom: 30px;
-            color: #d4af37;
-            text-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+            font-size: 8rem;
+            font-weight: 200;
+            margin-bottom: 25px;
+            color: #ffd700;
+            text-shadow: 0 0 40px rgba(255, 215, 0, 0.6),
+                         0 4px 20px rgba(0, 0, 0, 0.4);
+            letter-spacing: -4px;
         }
 
         .timer-label {
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             margin-bottom: 60px;
-            color: #bdc3c7;
+            color: #c0c0c0;
             font-style: italic;
+            letter-spacing: 1px;
         }
 
         .controls {
@@ -108,60 +206,74 @@
         }
 
         button {
-            background: transparent;
-            border: 2px solid #d4af37;
-            color: #d4af37;
-            padding: 18px 50px;
-            font-size: 1.1rem;
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px solid #ffd700;
+            color: #ffd700;
+            padding: 20px 55px;
+            font-size: 1.15rem;
             cursor: pointer;
-            border-radius: 8px;
+            border-radius: 50px;
             font-weight: 600;
             font-family: 'Palatino', serif;
             transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
         }
 
         button:hover {
-            background: rgba(212, 175, 55, 0.1);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.2);
+            background: rgba(255, 215, 0, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
         }
 
         button#resetBtn {
-            border-color: #95a5a6;
-            color: #95a5a6;
+            background: rgba(192, 192, 192, 0.1);
+            border-color: #c0c0c0;
+            color: #c0c0c0;
+            box-shadow: 0 0 20px rgba(192, 192, 192, 0.2);
         }
 
         button#resetBtn:hover {
-            background: rgba(149, 165, 166, 0.1);
+            background: rgba(192, 192, 192, 0.2);
+            box-shadow: 0 10px 30px rgba(192, 192, 192, 0.3);
         }
 
         .sessions {
-            font-size: 1.2rem;
-            background: rgba(212, 175, 55, 0.1);
-            padding: 18px 45px;
-            border-radius: 25px;
+            font-size: 1.25rem;
+            background: rgba(255, 215, 0, 0.1);
+            padding: 20px 50px;
+            border-radius: 30px;
             display: inline-block;
-            border: 1px solid rgba(212, 175, 55, 0.3);
-            color: #d4af37;
+            border: 2px solid rgba(255, 215, 0, 0.4);
+            color: #ffd700;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
         }
 
         .sessions span {
-            font-size: 2.5rem;
-            font-weight: 600;
+            font-size: 3rem;
+            font-weight: 700;
             display: block;
-            margin-top: 8px;
+            margin-top: 10px;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
         }
     </style>
 </head>
 <body>
+    <!-- Animated stars -->
+    <div class="stars" id="starsContainer"></div>
+
     <div class="container">
-        <h1>Time Flows Like Sand</h1>
+        <h1>⏳ Time Flows Like Sand</h1>
 
         <div class="hourglass-container">
-            <div class="hourglass">
+            <div class="frame-top"></div>
+            <div class="hourglass"></div>
+            <div class="glass-shine"></div>
+            <div class="sand-container">
                 <div class="sand-top" id="sandTop"></div>
                 <div class="sand-bottom" id="sandBottom"></div>
+                <div class="sand-stream" id="sandStream"></div>
             </div>
+            <div class="frame-bottom"></div>
         </div>
 
         <div class="timer-display" id="timer">25:00</div>
@@ -179,6 +291,18 @@
     </div>
 
     <script>
+        // Generate stars
+        const starsContainer = document.getElementById('starsContainer');
+        for (let i = 0; i < 100; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 3 + 's';
+            star.style.animationDuration = (Math.random() * 2 + 2) + 's';
+            starsContainer.appendChild(star);
+        }
+
         let timeLeft = 25 * 60;
         let totalTime = 25 * 60;
         let isRunning = false;
@@ -193,6 +317,7 @@
         const sessionsDisplay = document.getElementById('sessions');
         const sandTop = document.getElementById('sandTop');
         const sandBottom = document.getElementById('sandBottom');
+        const sandStream = document.getElementById('sandStream');
 
         function updateDisplay() {
             const minutes = Math.floor(timeLeft / 60);
@@ -201,11 +326,18 @@
 
             // Update sand levels
             const progress = ((totalTime - timeLeft) / totalTime);
-            const topHeight = (1 - progress) * 48; // Top half (48% of hourglass)
-            const bottomHeight = progress * 48; // Bottom half
+            const topHeight = (1 - progress) * 45; // Top bulb
+            const bottomHeight = progress * 45; // Bottom bulb
 
             sandTop.style.height = topHeight + '%';
             sandBottom.style.height = bottomHeight + '%';
+
+            // Show sand stream when timer is running
+            if (isRunning && timeLeft > 0) {
+                sandStream.classList.add('active');
+            } else {
+                sandStream.classList.remove('active');
+            }
         }
 
         function startTimer() {
