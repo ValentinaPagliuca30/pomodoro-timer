@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v20: Playful iOS</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+        }
+
+        .container {
+            text-align: center;
+            width: 100%;
+            max-width: 750px;
+        }
+
+        .icon {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+
+        h1 {
+            font-size: 2.3rem;
+            font-weight: 600;
+            margin-bottom: 55px;
+            color: #fff;
+        }
+
+        .timer-display {
+            font-size: 10.5rem;
+            font-weight: 200;
+            color: #fff;
+            margin-bottom: 35px;
+            letter-spacing: -5px;
+            text-shadow: 0 6px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .timer-label {
+            font-size: 1.35rem;
+            color: rgba(255, 255, 255, 0.85);
+            margin-bottom: 70px;
+            font-weight: 400;
+        }
+
+        .controls {
+            display: flex;
+            gap: 22px;
+            justify-content: center;
+            margin-bottom: 60px;
+        }
+
+        button {
+            background: rgba(255, 255, 255, 0.95);
+            border: none;
+            color: #667eea;
+            padding: 20px 60px;
+            font-size: 1.08rem;
+            cursor: pointer;
+            border-radius: 15px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 600;
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.15);
+        }
+
+        button:hover {
+            background: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.22);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button#resetBtn {
+            background: rgba(255, 255, 255, 0.22);
+            color: #fff;
+        }
+
+        button#resetBtn:hover {
+            background: rgba(255, 255, 255, 0.32);
+        }
+
+        .sessions {
+            font-size: 1.15rem;
+            color: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.18);
+            backdrop-filter: blur(15px);
+            padding: 18px 45px;
+            border-radius: 28px;
+            display: inline-block;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+        }
+
+        .sessions span {
+            font-size: 2.8rem;
+            font-weight: 600;
+            color: #fff;
+            display: block;
+            margin-top: 10px;
+        }
+
+        .sparkles {
+            position: absolute;
+            font-size: 1.5rem;
+            opacity: 0.6;
+            animation: sparkle 2.5s ease-in-out infinite;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 0.3; transform: scale(0.8); }
+            50% { opacity: 0.8; transform: scale(1.2); }
+        }
+
+        .sparkle1 { top: 15%; left: 20%; animation-delay: 0s; }
+        .sparkle2 { top: 25%; right: 18%; animation-delay: 0.8s; }
+        .sparkle3 { bottom: 22%; left: 15%; animation-delay: 1.6s; }
+    </style>
+</head>
+<body>
+    <div class="sparkles sparkle1">✨</div>
+    <div class="sparkles sparkle2">✨</div>
+    <div class="sparkles sparkle3">✨</div>
+
+    <div class="container">
+        <div class="icon">🎯</div>
+        <h1>Focus & Flow</h1>
+
+        <div class="timer-display" id="timer">25:00</div>
+        <div class="timer-label" id="label">Study Time</div>
+
+        <div class="controls">
+            <button id="startBtn">Start</button>
+            <button id="resetBtn">Reset</button>
+        </div>
+
+        <div class="sessions">
+            Completed
+            <span id="sessions">0</span>
+        </div>
+    </div>
+
+    <script>
+        let timeLeft = 25 * 60;
+        let totalTime = 25 * 60;
+        let isRunning = false;
+        let isBreak = false;
+        let sessionsCompleted = 0;
+        let timerInterval;
+
+        const timerDisplay = document.getElementById('timer');
+        const labelDisplay = document.getElementById('label');
+        const startBtn = document.getElementById('startBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const sessionsDisplay = document.getElementById('sessions');
+
+        function updateDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function startTimer() {
+            if (isRunning) {
+                isRunning = false;
+                startBtn.textContent = 'Start';
+                clearInterval(timerInterval);
+            } else {
+                isRunning = true;
+                startBtn.textContent = 'Pause';
+                timerInterval = setInterval(() => {
+                    if (timeLeft > 0) {
+                        timeLeft--;
+                        updateDisplay();
+                    } else {
+                        clearInterval(timerInterval);
+                        isRunning = false;
+
+                        if (!isBreak) {
+                            sessionsCompleted++;
+                            sessionsDisplay.textContent = sessionsCompleted;
+                            isBreak = true;
+                            timeLeft = 5 * 60;
+                            totalTime = 5 * 60;
+                            labelDisplay.textContent = 'Break Time';
+                            startBtn.textContent = 'Start';
+                        } else {
+                            isBreak = false;
+                            timeLeft = 25 * 60;
+                            totalTime = 25 * 60;
+                            labelDisplay.textContent = 'Study Time';
+                            startBtn.textContent = 'Start';
+                        }
+                        updateDisplay();
+                    }
+                }, 1000);
+            }
+        }
+
+        function resetTimer() {
+            clearInterval(timerInterval);
+            isRunning = false;
+            isBreak = false;
+            timeLeft = 25 * 60;
+            totalTime = 25 * 60;
+            labelDisplay.textContent = 'Study Time';
+            startBtn.textContent = 'Start';
+            updateDisplay();
+        }
+
+        startBtn.addEventListener('click', startTimer);
+        resetBtn.addEventListener('click', resetTimer);
+
+        updateDisplay();
+    </script>
+</body>
+</html>
