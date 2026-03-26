@@ -279,11 +279,17 @@
             const progress = ((totalTime - timeLeft) / totalTime);
             waterFill.style.height = (progress * 100) + '%';
 
-            // Show fish when complete
-            if (progress >= 1) {
+            // Show fish gradually as water rises
+            if (progress >= 0.25) {
                 fish1.style.opacity = '1';
+            }
+            if (progress >= 0.50) {
                 fish2.style.opacity = '1';
+            }
+            if (progress >= 0.75) {
                 fish3.style.opacity = '1';
+            }
+            if (progress >= 1) {
                 fish4.style.opacity = '1';
             }
         }
