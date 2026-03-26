@@ -67,6 +67,8 @@
             overflow: hidden;
             box-shadow: 0 4px 20px rgba(0,0,0,0.1);
             transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
         }
 
         .version-card:hover {
@@ -95,6 +97,9 @@
 
         .version-info {
             padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
         }
 
         .version-number {
@@ -119,11 +124,12 @@
             color: #666;
             font-size: 0.95rem;
             line-height: 1.5;
+            margin-bottom: 15px;
+            flex-grow: 1;
         }
 
         .view-button {
             display: block;
-            margin-top: 15px;
             padding: 10px 20px;
             background: #667eea;
             color: white;
